@@ -38,7 +38,7 @@ namespace StitchTime.Services
             var entity = new Report();
             _mapper.Map(reportDto, entity);
             await _unitOfWork.ReportRepository.Insert(entity);
-            _unitOfWork.Save();
+            await _unitOfWork.SaveAsync();
             _mapper.Map(entity, reportDto);
             return reportDto;
         }
@@ -55,8 +55,8 @@ namespace StitchTime.Services
 
         public async Task Delete(int Id)
         {
-           await _unitOfWork.ReportRepository.Delete(Id);
-            _unitOfWork.Save();
+            await _unitOfWork.ReportRepository.Delete(Id);
+            await _unitOfWork.SaveAsync();
         }
     }
 }

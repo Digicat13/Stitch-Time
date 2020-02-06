@@ -1,4 +1,5 @@
 ﻿using StitchTime.Core.Abstractions.Repositories;
+using System.Threading.Tasks;
 
 namespace StitchTime.Core.Abstractions
 {
@@ -9,5 +10,6 @@ namespace StitchTime.Core.Abstractions
         public IReportRepository ReportRepository { get; }
 
         public void Save();
+        public Task SaveAsync();
     }
 }

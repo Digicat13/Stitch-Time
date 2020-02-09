@@ -37,6 +37,9 @@ namespace StitchTime.Services
         {
             var entity = new Report();
             _mapper.Map(reportDto, entity);
+            entity.CreateDate = System.DateTime.UtcNow;
+            entity.UpdateDate = System.DateTime.UtcNow;
+            entity.StatusId = 1;
             await _unitOfWork.ReportRepository.Insert(entity);
             await _unitOfWork.SaveAsync();
             _mapper.Map(entity, reportDto);
@@ -47,6 +50,7 @@ namespace StitchTime.Services
         {
             var entity = new Report();
             _mapper.Map(reportDto, entity);
+            entity.UpdateDate = System.DateTime.UtcNow;
             _unitOfWork.ReportRepository.Update(entity);
             _unitOfWork.Save();
             _mapper.Map(entity, reportDto);

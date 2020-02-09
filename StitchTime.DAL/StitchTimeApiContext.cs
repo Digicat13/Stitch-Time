@@ -5,17 +5,17 @@ namespace StitchTime.DAL
 {
     public class StitchTimeApiContext : DbContext
     {
-        public DbSet<User> Users { get; set; }
+        public DbSet<User> User { get; set; }
 
-        public DbSet<Password> Passwords { get; set; }
+        public DbSet<Password> Password { get; set; }
 
-        public DbSet<Position> Positions { get; set; }
+        public DbSet<Position> Position { get; set; }
 
-        public DbSet<Team> Teams { get; set; }
+        public DbSet<Team> Team { get; set; }
 
-        public DbSet<Project> Projects { get; set; }
+        public DbSet<Project> Project { get; set; }
 
-        public DbSet<TeamMember> TeamMembers { get; set; }
+        public DbSet<TeamMember> TeamMember { get; set; }
 
         public StitchTimeApiContext(DbContextOptions op) : base(op) { }
 
@@ -46,9 +46,9 @@ namespace StitchTime.DAL
                 .HasConstraintName("Project_ProjectManager");
 
                 entity.HasMany(e => e.MemberTeams)
-                .WithOne(e => e.Member)
+                .WithOne(e => e.User)
                 .OnDelete(DeleteBehavior.NoAction)
-                .HasForeignKey(e => e.MemberId)
+                .HasForeignKey(e => e.UserId)
                 .HasConstraintName("TeamMember_User");
 
                 entity.HasMany(e => e.Reports)

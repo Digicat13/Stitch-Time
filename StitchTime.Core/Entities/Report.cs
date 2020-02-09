@@ -24,6 +24,10 @@ namespace StitchTime.Core.Entities
 
         public DateTime EndDate { get; set; }
 
+        public DateTime CreateDate { get; set; }
+
+        public DateTime UpdateDate { get; set; }
+
         public int UserId { get; set; }
 
         public User User { get; set; }

@@ -1,4 +1,5 @@
 ﻿using StitchTime.Core.Abstractions.Repositories;
+using System.Threading.Tasks;
 
 namespace StitchTime.Core.Abstractions
 {
@@ -15,5 +16,6 @@ namespace StitchTime.Core.Abstractions
         public ITeamRepository TeamRepository { get; }
 
         public void Save();
+        public Task SaveAsync();
     }
 }

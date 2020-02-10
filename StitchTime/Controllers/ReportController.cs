@@ -27,25 +27,26 @@ namespace StitchTime.Controllers
             try
             {
                 var result = _reportService.GetAll();
-                return new OkObjectResult(result);
+                return  Ok(result);
             }
             catch
             {
-                return new NotFoundResult();
+                return NotFound();
             }
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<ReportDto>> GetReport(int id)
         {
-            var result = await _reportService.GetById(id);
-
-            if (result == null)
+            try
+            {
+                var result = await _reportService.GetById(id);
+                return Ok(result);
+            }
+            catch (NullReferenceException)
             {
                 return NotFound();
             }
-
-            return Ok(result);
         }
 
         [HttpPut("{id}")]
@@ -53,27 +54,40 @@ namespace StitchTime.Controllers
         {        
             try
             {
-
+                if(report.Id != id)
+                {
+                    return BadRequest("Id doesn`t match");
+                }
                 var result = _reportService.Update(report);
                 return Ok(result);
             }
-            catch (Exception)
+            catch (NullReferenceException)
             {
-                if (!ReportExists(id))
-                {
-                    return NotFound();
-                }
+                return NotFound();
             }
-
-            return NoContent();
+            catch
+            {
+                return Problem();
+            }
         }
 
         [HttpPost]
         public async Task<ActionResult<ReportDto>> PostReport(ReportDto report)
         {
-            await _reportService.Insert(report);
+            try
+            {
+                await _reportService.Insert(report);
 
-            return Ok(report);
+                return Ok(report);
+            }
+            catch (NullReferenceException)
+            {
+                return NotFound();
+            }
+            catch
+            {
+                return Problem();
+            }
         }
 
         [HttpDelete("{id}")]
@@ -82,25 +96,16 @@ namespace StitchTime.Controllers
             try
             {
                 await _reportService.Delete(id);
-                return Ok();
+                return NoContent();
             }
-            catch (Exception)
+            catch (NullReferenceException)
             {
-                if (!ReportExists(id))
-                {
-                    return NotFound();
-                }
+                return NotFound();
             }
-
-            return Problem();
-        }
-
-        private bool ReportExists(int id)
-        {
-            if (_reportService.GetById(id) != null)
-                return true;
-            else
-                return false;
-        }
+            catch
+            {
+                return Problem();
+            }
+        }       
     }
 }

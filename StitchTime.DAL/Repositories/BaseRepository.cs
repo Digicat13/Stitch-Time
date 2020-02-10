@@ -21,6 +21,7 @@ namespace StitchTime.DAL.Repositories
         public async Task<TEntity> GetById(TId id)
         {
             var result = await _dbContext.Set<TEntity>().FindAsync(id);
+            NullChecked(result);
             return result;
         }
 
@@ -31,6 +32,7 @@ namespace StitchTime.DAL.Repositories
 
         public TEntity Update(TEntity Entity)
         {
+            NullChecked(Entity);
             var result = _dbContext.Set<TEntity>().Update(Entity);
             return result.Entity; 
         }
@@ -38,7 +40,17 @@ namespace StitchTime.DAL.Repositories
         public async Task Delete(TId Id)
         {
             var entityToDelete = await _dbContext.Set<TEntity>().FindAsync(Id);
-            new Task(() => _dbContext.Set<TEntity>().Remove(entityToDelete)).Start() ;
+            NullChecked(entityToDelete);
+            _dbContext.Set<TEntity>().Remove(entityToDelete);
+            
+        }
+
+        private void NullChecked(TEntity entityToCheck)
+        {
+            if(!(_dbContext.Set<TEntity>().Contains(entityToCheck)))
+            {
+                throw new System.NullReferenceException();
+            }
         }
     }
 }

@@ -37,8 +37,11 @@ namespace StitchTime.Services
         {
             var entity = new Report();
             _mapper.Map(reportDto, entity);
+            entity.CreateDate = System.DateTime.UtcNow;
+            entity.UpdateDate = System.DateTime.UtcNow;
+            entity.StatusId = 1;
             await _unitOfWork.ReportRepository.Insert(entity);
-            _unitOfWork.Save();
+            await _unitOfWork.SaveAsync();
             _mapper.Map(entity, reportDto);
             return reportDto;
         }
@@ -47,6 +50,8 @@ namespace StitchTime.Services
         {
             var entity = new Report();
             _mapper.Map(reportDto, entity);
+            entity.StatusId = 1;
+            entity.UpdateDate = System.DateTime.UtcNow;
             _unitOfWork.ReportRepository.Update(entity);
             _unitOfWork.Save();
             _mapper.Map(entity, reportDto);
@@ -55,8 +60,8 @@ namespace StitchTime.Services
 
         public async Task Delete(int Id)
         {
-           await _unitOfWork.ReportRepository.Delete(Id);
-            _unitOfWork.Save();
+            await _unitOfWork.ReportRepository.Delete(Id);
+            await _unitOfWork.SaveAsync();
         }
     }
 }

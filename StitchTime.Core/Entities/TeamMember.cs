@@ -8,8 +8,8 @@
 
         public Team Team { get; set; }
 
-        public int MemberId { get; set; }
+        public int UserId { get; set; }
 
-        public User Member { get; set; }
+        public User User { get; set; }
     }
 }

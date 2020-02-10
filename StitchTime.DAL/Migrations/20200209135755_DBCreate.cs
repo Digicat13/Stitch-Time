@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace StitchTime.DAL.Migrations
 {
-    public partial class CreateDB : Migration
+    public partial class DBCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -21,7 +21,7 @@ namespace StitchTime.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Passwords",
+                name: "Password",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -30,11 +30,11 @@ namespace StitchTime.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Passwords", x => x.Id);
+                    table.PrimaryKey("PK_Password", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Positions",
+                name: "Position",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -43,7 +43,7 @@ namespace StitchTime.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Positions", x => x.Id);
+                    table.PrimaryKey("PK_Position", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -60,7 +60,7 @@ namespace StitchTime.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "User",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -73,23 +73,23 @@ namespace StitchTime.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_User", x => x.Id);
                     table.ForeignKey(
                         name: "User_Password",
                         column: x => x.PasswordId,
-                        principalTable: "Passwords",
+                        principalTable: "Password",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "User_Position",
                         column: x => x.PositionId,
-                        principalTable: "Positions",
+                        principalTable: "Position",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Projects",
+                name: "Project",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -99,11 +99,11 @@ namespace StitchTime.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Projects", x => x.Id);
+                    table.PrimaryKey("PK_Project", x => x.Id);
                     table.ForeignKey(
                         name: "Project_ProjectManager",
                         column: x => x.ProjectManagerId,
-                        principalTable: "Users",
+                        principalTable: "User",
                         principalColumn: "Id");
                 });
 
@@ -120,6 +120,8 @@ namespace StitchTime.DAL.Migrations
                     Overtime = table.Column<double>(nullable: false),
                     StartDate = table.Column<DateTime>(nullable: false),
                     EndDate = table.Column<DateTime>(nullable: false),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    UpdateDate = table.Column<DateTime>(nullable: false),
                     UserId = table.Column<int>(nullable: false),
                     StatusId = table.Column<int>(nullable: false)
                 },
@@ -135,7 +137,7 @@ namespace StitchTime.DAL.Migrations
                     table.ForeignKey(
                         name: "Report_Project",
                         column: x => x.ProjectId,
-                        principalTable: "Projects",
+                        principalTable: "Project",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "Report_Status",
@@ -146,12 +148,12 @@ namespace StitchTime.DAL.Migrations
                     table.ForeignKey(
                         name: "Report_User",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "User",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "Teams",
+                name: "Team",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -161,48 +163,48 @@ namespace StitchTime.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Teams", x => x.Id);
+                    table.PrimaryKey("PK_Team", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Teams_Projects_ProjectId",
+                        name: "FK_Team_Project_ProjectId",
                         column: x => x.ProjectId,
-                        principalTable: "Projects",
+                        principalTable: "Project",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "Team_TeamLead",
                         column: x => x.TeamLeadId,
-                        principalTable: "Users",
+                        principalTable: "User",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "TeamMembers",
+                name: "TeamMember",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TeamId = table.Column<int>(nullable: false),
-                    MemberId = table.Column<int>(nullable: false)
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TeamMembers", x => x.Id);
-                    table.ForeignKey(
-                        name: "TeamMember_User",
-                        column: x => x.MemberId,
-                        principalTable: "Users",
-                        principalColumn: "Id");
+                    table.PrimaryKey("PK_TeamMember", x => x.Id);
                     table.ForeignKey(
                         name: "TeamMember_Team",
                         column: x => x.TeamId,
-                        principalTable: "Teams",
+                        principalTable: "Team",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "TeamMember_User",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_ProjectManagerId",
-                table: "Projects",
+                name: "IX_Project_ProjectManagerId",
+                table: "Project",
                 column: "ProjectManagerId");
 
             migrationBuilder.CreateIndex(
@@ -226,34 +228,34 @@ namespace StitchTime.DAL.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TeamMembers_MemberId",
-                table: "TeamMembers",
-                column: "MemberId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TeamMembers_TeamId",
-                table: "TeamMembers",
-                column: "TeamId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Teams_ProjectId",
-                table: "Teams",
+                name: "IX_Team_ProjectId",
+                table: "Team",
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Teams_TeamLeadId",
-                table: "Teams",
+                name: "IX_Team_TeamLeadId",
+                table: "Team",
                 column: "TeamLeadId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_PasswordId",
-                table: "Users",
+                name: "IX_TeamMember_TeamId",
+                table: "TeamMember",
+                column: "TeamId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TeamMember_UserId",
+                table: "TeamMember",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_PasswordId",
+                table: "User",
                 column: "PasswordId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_PositionId",
-                table: "Users",
+                name: "IX_User_PositionId",
+                table: "User",
                 column: "PositionId");
         }
 
@@ -263,7 +265,7 @@ namespace StitchTime.DAL.Migrations
                 name: "Report");
 
             migrationBuilder.DropTable(
-                name: "TeamMembers");
+                name: "TeamMember");
 
             migrationBuilder.DropTable(
                 name: "Assignment");
@@ -272,19 +274,19 @@ namespace StitchTime.DAL.Migrations
                 name: "Status");
 
             migrationBuilder.DropTable(
-                name: "Teams");
+                name: "Team");
 
             migrationBuilder.DropTable(
-                name: "Projects");
+                name: "Project");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "User");
 
             migrationBuilder.DropTable(
-                name: "Passwords");
+                name: "Password");
 
             migrationBuilder.DropTable(
-                name: "Positions");
+                name: "Position");
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using StitchTime.Core.Abstractions;
 using StitchTime.Core.Abstractions.Repositories;
 using StitchTime.DAL.Repositories;
+using System.Threading.Tasks;
 
 namespace StitchTime.DAL
 {
@@ -38,6 +39,11 @@ namespace StitchTime.DAL
         public void Save()
         {
             _dbContext.SaveChanges();
+        }
+
+        public async Task SaveAsync()
+        {
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

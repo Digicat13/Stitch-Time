@@ -10,8 +10,8 @@ using StitchTime.DAL;
 namespace StitchTime.DAL.Migrations
 {
     [DbContext(typeof(StitchTimeApiContext))]
-    [Migration("20200131132005_CreateDB")]
-    partial class CreateDB
+    [Migration("20200209135755_DBCreate")]
+    partial class DBCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -48,7 +48,7 @@ namespace StitchTime.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Passwords");
+                    b.ToTable("Password");
                 });
 
             modelBuilder.Entity("StitchTime.Core.Entities.Position", b =>
@@ -63,7 +63,7 @@ namespace StitchTime.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Positions");
+                    b.ToTable("Position");
                 });
 
             modelBuilder.Entity("StitchTime.Core.Entities.Project", b =>
@@ -83,7 +83,7 @@ namespace StitchTime.DAL.Migrations
 
                     b.HasIndex("ProjectManagerId");
 
-                    b.ToTable("Projects");
+                    b.ToTable("Project");
                 });
 
             modelBuilder.Entity("StitchTime.Core.Entities.Report", b =>
@@ -95,6 +95,9 @@ namespace StitchTime.DAL.Migrations
 
                     b.Property<int>("AssignmentId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -116,6 +119,9 @@ namespace StitchTime.DAL.Migrations
 
                     b.Property<double>("Time")
                         .HasColumnType("float");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -167,7 +173,7 @@ namespace StitchTime.DAL.Migrations
 
                     b.HasIndex("TeamLeadId");
 
-                    b.ToTable("Teams");
+                    b.ToTable("Team");
                 });
 
             modelBuilder.Entity("StitchTime.Core.Entities.TeamMember", b =>
@@ -177,19 +183,19 @@ namespace StitchTime.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("MemberId")
+                    b.Property<int>("TeamId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TeamId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MemberId");
-
                     b.HasIndex("TeamId");
 
-                    b.ToTable("TeamMembers");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TeamMember");
                 });
 
             modelBuilder.Entity("StitchTime.Core.Entities.User", b =>
@@ -221,7 +227,7 @@ namespace StitchTime.DAL.Migrations
 
                     b.HasIndex("PositionId");
 
-                    b.ToTable("Users");
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("StitchTime.Core.Entities.Project", b =>
@@ -283,18 +289,18 @@ namespace StitchTime.DAL.Migrations
 
             modelBuilder.Entity("StitchTime.Core.Entities.TeamMember", b =>
                 {
-                    b.HasOne("StitchTime.Core.Entities.User", "Member")
-                        .WithMany("MemberTeams")
-                        .HasForeignKey("MemberId")
-                        .HasConstraintName("TeamMember_User")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("StitchTime.Core.Entities.Team", "Team")
                         .WithMany("TeamMembers")
                         .HasForeignKey("TeamId")
                         .HasConstraintName("TeamMember_Team")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StitchTime.Core.Entities.User", "User")
+                        .WithMany("MemberTeams")
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("TeamMember_User")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 

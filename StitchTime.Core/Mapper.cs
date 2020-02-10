@@ -14,6 +14,7 @@ namespace StitchTime.Core
             CreateMap<ReportDto, Report>().ReverseMap();
             CreateMap<StatusDto, Status>().ReverseMap();
             CreateMap<AssignmentDto, Assignment>().ReverseMap();
+            CreateMap<UserViewDto, User>().ReverseMap();
         }
     }
 }

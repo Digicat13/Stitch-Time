@@ -54,6 +54,10 @@ namespace StitchTime.Controllers
         {        
             try
             {
+                if(report.Id != id)
+                {
+                    return BadRequest("Id doesn`t match");
+                }
                 var result = _reportService.Update(report);
                 return Ok(result);
             }
@@ -70,9 +74,20 @@ namespace StitchTime.Controllers
         [HttpPost]
         public async Task<ActionResult<ReportDto>> PostReport(ReportDto report)
         {
-            await _reportService.Insert(report);
+            try
+            {
+                await _reportService.Insert(report);
 
-            return Ok(report);
+                return Ok(report);
+            }
+            catch (NullReferenceException)
+            {
+                return NotFound();
+            }
+            catch
+            {
+                return Problem();
+            }
         }
 
         [HttpDelete("{id}")]

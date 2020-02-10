@@ -32,8 +32,8 @@ namespace StitchTime.DAL.Repositories
 
         public TEntity Update(TEntity Entity)
         {
+            NullChecked(Entity);
             var result = _dbContext.Set<TEntity>().Update(Entity);
-            NullChecked(result.Entity);
             return result.Entity; 
         }
 
@@ -45,13 +45,9 @@ namespace StitchTime.DAL.Repositories
             
         }
 
-        private bool NullChecked(TEntity entityToCheck)
+        private void NullChecked(TEntity entityToCheck)
         {
-            if(entityToCheck != null)
-            {
-                return true;
-            }
-            else
+            if(!(_dbContext.Set<TEntity>().Contains(entityToCheck)))
             {
                 throw new System.NullReferenceException();
             }

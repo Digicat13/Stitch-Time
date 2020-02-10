@@ -50,6 +50,7 @@ namespace StitchTime.Services
         {
             var entity = new Report();
             _mapper.Map(reportDto, entity);
+            entity.StatusId = 1;
             entity.UpdateDate = System.DateTime.UtcNow;
             _unitOfWork.ReportRepository.Update(entity);
             _unitOfWork.Save();

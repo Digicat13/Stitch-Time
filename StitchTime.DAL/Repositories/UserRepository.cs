@@ -5,8 +5,8 @@ namespace StitchTime.DAL.Repositories
 {
     public class UserRepository : BaseRepository<User, int>, IUserRepository
     {
-        public UserRepository(StitchTimeApiContext context) : base(context) { }
-
-        
+        public UserRepository(StitchTimeApiContext context) : base(context)
+        {
+        }
     }
 }

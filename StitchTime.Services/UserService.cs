@@ -1,15 +1,14 @@
-﻿
-
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using StitchTime.Core.Abstractions;
 using StitchTime.Core.Abstractions.Services;
 using StitchTime.Core.Dto;
 
 namespace StitchTime.Services
 {
-    class UserService : IUserService
+    public class UserService : IUserService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -22,18 +21,20 @@ namespace StitchTime.Services
 
         public async Task<InfoByUserDto> GetInfoById(int Id)
         {
-            //get user
-            var infoByUser=new InfoByUserDto();
-            var entity = await _unitOfWork.UserRepository.GetById(Id);
-            var user = new UserViewDto();
-            _mapper.Map(entity,user);
-            infoByUser.User = user;
+            var infoByUser = new InfoByUserDto();
 
-            //get projects
-            var entities = _unitOfWork.ProjectRepository.GetAll().Where()
+            var entity = _unitOfWork.UserRepository
+                .GetAll().Where(x => x.Id == Id)
+                .Include(x => x.Position)
+                .Include(x => x.MemberTeams)
+                .ThenInclude(x => x.Team)
+                .ThenInclude(x=>x.Project)
+                .Include(x => x.Reports)
+                .ToList()
+                .FirstOrDefault();
 
+            _mapper.Map(entity, infoByUser);
             return infoByUser;
-
         }
     }
 }

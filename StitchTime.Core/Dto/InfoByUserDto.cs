@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace StitchTime.Core.Dto
 {
@@ -8,12 +6,11 @@ namespace StitchTime.Core.Dto
     {
         public UserViewDto User { get; set; }
 
-        public List<ProjectViewDto> Projects { get; set; }
+        public PositionDto Position { get; set; }
 
-        public List<AssignmentDto> Assignments { get; set; }
+        public List<ProjectViewDto> Projects { get; set; } 
 
         public List<ReportDto> Reports { get; set; }
 
-        public List<StatusDto> Statuses { get; set; }
     }
 }

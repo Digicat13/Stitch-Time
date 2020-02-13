@@ -52,6 +52,7 @@ namespace StitchTime
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IReportService, ReportService>();
+            services.AddScoped<IUserService, UserService>();
 
             services.AddControllers();
         }

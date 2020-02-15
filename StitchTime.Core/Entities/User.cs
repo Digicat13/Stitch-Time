@@ -1,20 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 
 namespace StitchTime.Core.Entities
 {
-    public class User : IEntity<int>
+    public class User :  IdentityUser
     {
-        public int Id { get; set; }
-
         public string FirstName { get; set; }
 
         public string SecondName { get; set; }
-
-        public string Email { get; set; }
-
-        public int PasswordId { get; set; }
-
-        public Password Password { get; set; }
 
         public int PositionId { get; set; }
 

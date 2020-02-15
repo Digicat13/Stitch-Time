@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StitchTime.DAL.Repositories
 {
-    public abstract class BaseRepository<TEntity, TId> : IBaseRepository<TEntity, TId> where TEntity : class, IEntity<TId>
+    public abstract class BaseRepository<TEntity, TId> : IBaseRepository<TEntity, TId> where TEntity : class
     {
         private readonly StitchTimeApiContext _dbContext;
         public BaseRepository(StitchTimeApiContext context)

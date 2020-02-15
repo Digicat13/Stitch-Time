@@ -19,12 +19,12 @@ namespace StitchTime.Services
             _mapper = mapper;
         }
 
-        public async Task<InfoByUserDto> GetInfoById(int Id)
+        public async Task<InfoByUserDto> GetInfoById(string Id)
         {
             var infoByUser = new InfoByUserDto();
 
             var entity = _unitOfWork.UserRepository
-                .GetAll().Where(x => x.Id == Id)
+                .GetAll().Where(x => x.Id == Id) // == .GetById(Id)
                 .Include(x => x.Position)
                 .Include(x => x.MemberTeams)
                 .ThenInclude(x => x.Team)
@@ -33,6 +33,7 @@ namespace StitchTime.Services
                 .ToList()
                 .FirstOrDefault();
 
+            await _unitOfWork.SaveAsync();
             _mapper.Map(entity, infoByUser);
             return infoByUser;
         }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using StitchTime.Core.Abstractions.Services;
 using StitchTime.Core.Dto;
+using System.Security.Claims;
 
 namespace StitchTime.Controllers
 {
@@ -21,11 +22,11 @@ namespace StitchTime.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<InfoByUserDto>> GetInfoById(int id)
+        public async Task<ActionResult<InfoByUserDto>> GetInfo()
         {
             try
             {
-                var result = await _userService.GetInfoById(id);
+                var result = await _userService.GetInfoById(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 return Ok(result);
             }
             catch (NullReferenceException)

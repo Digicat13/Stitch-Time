@@ -20,7 +20,7 @@ namespace StitchTime.Core.Dto
 
         public DateTime EndDate { get; set; }
 
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         public int StatusId { get; set; }
     }

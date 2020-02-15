@@ -10,7 +10,8 @@ using StitchTime.DAL;
 using Microsoft.OpenApi.Models;
 using StitchTime.Core.Abstractions.Services;
 using StitchTime.Services;
-using Microsoft.AspNetCore.Http;
+using StitchTime.Core.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace StitchTime
 {
@@ -43,7 +44,20 @@ namespace StitchTime
 
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
+            
             services.AddDbContext<StitchTimeApiContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<StitchTimeApiContext>();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequiredLength = 8;
+                options.Password.RequiredUniqueChars = 4;
+                options.Password.RequireNonAlphanumeric = false;
+                options.SignIn.RequireConfirmedAccount = false;
+                options.User.RequireUniqueEmail = true;
+            });
 
             services.AddSwaggerGen(c =>
             {
@@ -53,8 +67,11 @@ namespace StitchTime
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IReportService, ReportService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAccountService, AccountService>();
 
             services.AddControllers();
+
+            //services.AddMvcCore(options => options.Filters.Add<ValidatorFilter>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,12 +89,17 @@ namespace StitchTime
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            } else
+            {
+                app.UseExceptionHandler("/Error");
+                app.UseStatusCodePagesWithReExecute("/Error/{0}");
             }
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

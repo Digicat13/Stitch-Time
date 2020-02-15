@@ -11,8 +11,9 @@ namespace StitchTime.Core
         public Mapper()
         {
             CreateMap<UserDto, User>().ReverseMap();
+            CreateMap<UserLoginDto, User>().ReverseMap();
+
             CreateMap<PositionDto, Position>().ReverseMap();
-            CreateMap<PasswordDto, Password>().ReverseMap();
             CreateMap<ReportDto, Report>().ReverseMap();
             CreateMap<StatusDto, Status>().ReverseMap();
             CreateMap<AssignmentDto, Assignment>().ReverseMap();

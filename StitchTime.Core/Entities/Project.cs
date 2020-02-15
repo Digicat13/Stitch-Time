@@ -8,7 +8,7 @@ namespace StitchTime.Core.Entities
 
         public string Name { get; set; }
 
-        public int ProjectManagerId { get; set; }
+        public string ProjectManagerId { get; set; }
 
         public User ProjectManager { get; set; }
 

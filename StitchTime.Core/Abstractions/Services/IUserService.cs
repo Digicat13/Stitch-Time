@@ -7,5 +7,7 @@ namespace StitchTime.Core.Abstractions.Services
     public interface IUserService
     {
         public Task<InfoByUserDto> GetInfoById(int Id);
+
+        public Task<PmInfoDto> GetPmInfoById(int Id);
     }
 }

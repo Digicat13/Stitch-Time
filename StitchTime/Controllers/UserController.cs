@@ -33,5 +33,19 @@ namespace StitchTime.Controllers
                 return NotFound();
             }
         }
+
+        [HttpGet("pmInfo/{id}")]
+        public async Task<ActionResult<PmInfoDto>> GetPmInfoById(int id)
+        {
+            try
+            {
+                var result = await _userService.GetPmInfoById(id);
+                return Ok(result);
+            }
+            catch (NullReferenceException)
+            {
+                return NotFound();
+            }
+        }
     }
 }

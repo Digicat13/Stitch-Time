@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +36,21 @@ namespace StitchTime.Services
 
             _mapper.Map(entity, infoByUser);
             return infoByUser;
+        }
+
+        public async Task<PmInfoDto> GetPmInfoById(int Id)
+        {
+            var pmInfo = new PmInfoDto();
+            var entity = _unitOfWork.UserRepository
+                .GetAll().Where(x => x.Id == Id)
+                .Include(x => x.ManageProjects)
+                .ThenInclude(x => x.Reports)
+                .ThenInclude(x=>x.User/*.MemberTeams.Select(y=>y.Team)*/)
+                .ThenInclude(u=>u.MemberTeams)
+                .ToList()
+                .FirstOrDefault();
+            _mapper.Map(entity, pmInfo);
+            return pmInfo;
         }
     }
 }

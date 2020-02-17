@@ -36,6 +36,10 @@
     <Compile Remove="Migrations\20200214021853_IdentityContext.Designer.cs" />
     <Compile Remove="Migrations\20200217181441_NewMig.cs" />
     <Compile Remove="Migrations\20200217181441_NewMig.Designer.cs" />
+    <Compile Remove="Migrations\20200217182139_CreateDB.cs" />
+    <Compile Remove="Migrations\20200217182139_CreateDB.Designer.cs" />
+    <Compile Remove="Migrations\20200217193127_nwMG.cs" />
+    <Compile Remove="Migrations\20200217193127_nwMG.Designer.cs" />
 
   </ItemGroup>
 

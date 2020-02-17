@@ -10,8 +10,8 @@ using StitchTime.DAL;
 namespace StitchTime.DAL.Migrations
 {
     [DbContext(typeof(StitchTimeApiContext))]
-    [Migration("20200217193127_nwMG")]
-    partial class nwMG
+    [Migration("20200217194945_CreateDb")]
+    partial class CreateDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -20,6 +20,6 @@ namespace StitchTime.Core.Dto
 
         public string TeamLeadId { get; set; }
 
-        public List<UserViewDto> TeamMates { get; set; }
+        public TeamDto Team { get; set; }
     }
 }

@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
 
-        public string TeamId { get; set; }
+        public int TeamId { get; set; }
 
         public Team Team { get; set; }
 

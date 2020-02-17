@@ -27,5 +27,7 @@ namespace StitchTime.Core.Entities
         public List<User> UserData { get; set; }
 
         public List<Report> Reports { get; set; }
+
+        public Team Team { get; set; }
     }
 }

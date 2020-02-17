@@ -32,6 +32,10 @@
     <Compile Remove="Migrations\20200214020834_IdentityContext.Designer.cs" />
     <Compile Remove="Migrations\20200214021135_IdentityContext.cs" />
     <Compile Remove="Migrations\20200214021135_IdentityContext.Designer.cs" />
+    <Compile Remove="Migrations\20200214021853_IdentityContext.cs" />
+    <Compile Remove="Migrations\20200214021853_IdentityContext.Designer.cs" />
+    <Compile Remove="Migrations\20200217181441_NewMig.cs" />
+    <Compile Remove="Migrations\20200217181441_NewMig.Designer.cs" />
 
   </ItemGroup>
 

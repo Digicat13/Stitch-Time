@@ -235,21 +235,28 @@ namespace StitchTime.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Assignment");
-                });
 
-            modelBuilder.Entity("StitchTime.Core.Entities.Password", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("PasswordValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Password");
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Developing"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "For review"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "In review"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Bug fixing"
+                        });
                 });
 
             modelBuilder.Entity("StitchTime.Core.Entities.Position", b =>
@@ -353,6 +360,28 @@ namespace StitchTime.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Status");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Opened"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Notified"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Accepted"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Declined"
+                        });
                 });
 
             modelBuilder.Entity("StitchTime.Core.Entities.Team", b =>
@@ -406,18 +435,11 @@ namespace StitchTime.DAL.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PasswordId")
-                        .HasColumnType("int");
-
                     b.Property<int>("PositionId")
                         .HasColumnType("int");
 
                     b.Property<string>("SecondName")
                         .HasColumnType("nvarchar(max)");
-
-                    b.HasIndex("PasswordId")
-                        .IsUnique()
-                        .HasFilter("[PasswordId] IS NOT NULL");
 
                     b.HasIndex("PositionId");
 
@@ -547,13 +569,6 @@ namespace StitchTime.DAL.Migrations
 
             modelBuilder.Entity("StitchTime.Core.Entities.User", b =>
                 {
-                    b.HasOne("StitchTime.Core.Entities.Password", "Password")
-                        .WithOne("User")
-                        .HasForeignKey("StitchTime.Core.Entities.User", "PasswordId")
-                        .HasConstraintName("User_Password")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("StitchTime.Core.Entities.Position", "Position")
                         .WithMany("Users")
                         .HasForeignKey("PositionId")

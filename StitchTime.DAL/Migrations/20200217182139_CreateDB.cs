@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace StitchTime.DAL.Migrations
 {
-    public partial class IdentityContext : Migration
+    public partial class CreateDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -32,19 +32,6 @@ namespace StitchTime.DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Assignment", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Password",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PasswordValue = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Password", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -116,18 +103,11 @@ namespace StitchTime.DAL.Migrations
                     Discriminator = table.Column<string>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     SecondName = table.Column<string>(nullable: true),
-                    PasswordId = table.Column<int>(nullable: true),
                     PositionId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                    table.ForeignKey(
-                        name: "User_Password",
-                        column: x => x.PasswordId,
-                        principalTable: "Password",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "User_Position",
                         column: x => x.PositionId,
@@ -335,6 +315,28 @@ namespace StitchTime.DAL.Migrations
                         principalColumn: "Id");
                 });
 
+            migrationBuilder.InsertData(
+                table: "Assignment",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Developing" },
+                    { 2, "For review" },
+                    { 3, "In review" },
+                    { 4, "Bug fixing" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Status",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Opened" },
+                    { 2, "Notified" },
+                    { 3, "Accepted" },
+                    { 4, "Declined" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -373,13 +375,6 @@ namespace StitchTime.DAL.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_PasswordId",
-                table: "AspNetUsers",
-                column: "PasswordId",
-                unique: true,
-                filter: "[PasswordId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_PositionId",
@@ -472,9 +467,6 @@ namespace StitchTime.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Password");
 
             migrationBuilder.DropTable(
                 name: "Position");

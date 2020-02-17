@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using StitchTime.Core.Abstractions.Services;
+using StitchTime.Core.Dto;
 using System;
 
 namespace StitchTime.Controllers
@@ -19,8 +20,7 @@ namespace StitchTime.Controllers
 
 
         [HttpGet]
-
-        public ActionResult<IStartInfoService> GetStartInfo()
+        public ActionResult<StartInfoDto> GetStartInfo()
         {
             try
             {

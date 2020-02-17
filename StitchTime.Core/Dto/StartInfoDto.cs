@@ -4,8 +4,8 @@ namespace StitchTime.Core.Dto
 {
     public class StartInfoDto
     {
-        public List<StatusDto> statusDto;
+        public List<StatusDto> statusDto { get; set; }
 
-        public List<AssignmentDto> assignmentDto;
+        public List<AssignmentDto> assignmentDto { get; set; }
     }
 }

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace StitchTime.Core.Dto
+﻿namespace StitchTime.Core.Dto
 {
-    public class UserViewDto : IDto<int>
+    public class UserViewDto : IDto<string>
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         public int PositionId { get; set; }
 

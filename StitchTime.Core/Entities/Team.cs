@@ -6,7 +6,7 @@ namespace StitchTime.Core.Entities
     {
         public int Id { get; set; }
 
-        public int TeamLeadId { get; set; }
+        public string TeamLeadId { get; set; }
 
         public User TeamLead { get; set; }
 

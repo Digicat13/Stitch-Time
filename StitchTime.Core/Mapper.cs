@@ -11,8 +11,9 @@ namespace StitchTime.Core
         public Mapper()
         {
             CreateMap<UserDto, User>().ReverseMap();
+            CreateMap<UserLoginDto, User>().ReverseMap();
+
             CreateMap<PositionDto, Position>().ReverseMap();
-            CreateMap<PasswordDto, Password>().ReverseMap();
             CreateMap<ReportDto, Report>().ReverseMap();
             CreateMap<StatusDto, Status>().ReverseMap();
             CreateMap<AssignmentDto, Assignment>().ReverseMap();
@@ -20,6 +21,8 @@ namespace StitchTime.Core
             CreateMap<ProjectViewDto, Project>().ReverseMap();
             CreateMap<TeamMemberDto, TeamMember>().ReverseMap();
             CreateMap<TeamDto, Team>().ReverseMap();
+            CreateMap<StatusDto, Status>().ReverseMap();
+            CreateMap<AssignmentDto, Assignment>().ReverseMap();
 
             CreateMap<InfoByUserDto, User>().ReverseMap()
                 .ForMember(m=>m.User,opt=>opt.MapFrom(x=>x))

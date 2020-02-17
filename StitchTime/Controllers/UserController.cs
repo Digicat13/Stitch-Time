@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using StitchTime.Core.Abstractions.Services;
 using StitchTime.Core.Dto;
 using StitchTime.Core.Entities;
+using System.Security.Claims;
 
 namespace StitchTime.Controllers
 {

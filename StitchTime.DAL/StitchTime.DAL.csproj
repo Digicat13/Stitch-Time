@@ -26,10 +26,17 @@
     <Compile Remove="Migrations\20200131132005_CreateDB.Designer.cs" />
     <Compile Remove="Migrations\20200209011253_ReportNames.cs" />
     <Compile Remove="Migrations\20200209011253_ReportNames.Designer.cs" />
+    <Compile Remove="Migrations\20200209135755_DBCreate.cs" />
+    <Compile Remove="Migrations\20200209135755_DBCreate.Designer.cs" />
+    <Compile Remove="Migrations\20200214020834_IdentityContext.cs" />
+    <Compile Remove="Migrations\20200214020834_IdentityContext.Designer.cs" />
+    <Compile Remove="Migrations\20200214021135_IdentityContext.cs" />
+    <Compile Remove="Migrations\20200214021135_IdentityContext.Designer.cs" />
 
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.1">
       <PrivateAssets>all</PrivateAssets>

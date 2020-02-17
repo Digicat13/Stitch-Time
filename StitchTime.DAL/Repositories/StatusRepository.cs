@@ -3,9 +3,9 @@ using StitchTime.Core.Entities;
 
 namespace StitchTime.DAL.Repositories
 {
-    public class UserRepository : BaseRepository<User, string>, IUserRepository
+    class StatusRepository : BaseRepository<Status, int>, IStatusRepository
     {
-        public UserRepository(StitchTimeApiContext context) : base(context)
+        public StatusRepository(StitchTimeApiContext context) : base(context)
         {
         }
     }

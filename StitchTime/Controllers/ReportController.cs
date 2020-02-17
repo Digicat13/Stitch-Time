@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using StitchTime.Core.Abstractions.Services;
@@ -22,6 +23,7 @@ namespace StitchTime.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult<IEnumerable<ReportDto>> GetReports()
         {
             try
@@ -36,6 +38,7 @@ namespace StitchTime.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<ReportDto>> GetReport(int id)
         {
             try
@@ -50,6 +53,8 @@ namespace StitchTime.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
+
         public ActionResult<ReportDto> PutReport(int id, ReportDto report)
         {        
             try
@@ -72,6 +77,8 @@ namespace StitchTime.Controllers
         }
 
         [HttpPost]
+        [Authorize]
+
         public async Task<ActionResult<ReportDto>> PostReport(ReportDto report)
         {
             try
@@ -84,13 +91,15 @@ namespace StitchTime.Controllers
             {
                 return NotFound();
             }
-            catch
+            catch (Exception ex)
             {
-                return Problem();
+                return Problem(ex.Message);
             }
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
+
         public async Task<ActionResult> DeleteReport(int id)
         {
             try

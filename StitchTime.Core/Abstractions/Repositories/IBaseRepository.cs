@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace StitchTime.Core.Abstractions.Repositories
 {
-    public interface IBaseRepository<TEntity, TId> where TEntity : class, IEntity<TId>
+    public interface IBaseRepository<TEntity, TId>
     {
         public IQueryable<TEntity> GetAll();
 

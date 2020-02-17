@@ -31,9 +31,12 @@ namespace StitchTime.Core
                 .ForMember(m=>m.Reports,opt=>opt.MapFrom(x=>x.Reports))
                 .ForMember(m=>m.Projects,opt=>opt.MapFrom(x=>x.MemberTeams.Select(t=> t.Team.Project)));
 
-            CreateMap<PmProjectsInfo, User>().ReverseMap()
+            CreateMap<PmProjectsInfoDto, User>().ReverseMap()
                 .ForMember(m => m.Projects, opt => opt.MapFrom(x => x.ManageProjects));
 
+            CreateMap<PmReportsInfoDto, User>().ReverseMap()
+                .ForMember(x => x.Projects, opt => opt.MapFrom(x => x.ManageProjects))
+                .ForMember(x => x.DevelopersReports, opt => opt.MapFrom(x => x.ManageProjects.SelectMany(r=>r.Reports)));
         }
     }
 }

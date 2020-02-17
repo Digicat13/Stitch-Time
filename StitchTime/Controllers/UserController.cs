@@ -36,11 +36,25 @@ namespace StitchTime.Controllers
         }
 
         [HttpGet("GetPmProjectsInfo")]
-        public ActionResult<PmProjectsInfo> GetPmProjectsInfo()
+        public ActionResult<PmProjectsInfoDto> GetPmProjectsInfo()
         {
             try
             {
                 var result = _userService.GetPmProjectsInfo(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                return Ok(result);
+            }
+            catch (NullReferenceException)
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpGet("GetPmReportsInfo")]
+        public ActionResult<PmReportsInfoDto> GetPmReportsInfo()
+        {
+            try
+            {
+                var result = _userService.GetPmReportsInfo(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 return Ok(result);
             }
             catch (NullReferenceException)

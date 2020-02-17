@@ -21,6 +21,8 @@ namespace StitchTime.Core
             CreateMap<ProjectViewDto, Project>().ReverseMap();
             CreateMap<TeamMemberDto, TeamMember>().ReverseMap();
             CreateMap<TeamDto, Team>().ReverseMap();
+            CreateMap<StatusDto, Status>().ReverseMap();
+            CreateMap<AssignmentDto, Assignment>().ReverseMap();
 
             CreateMap<InfoByUserDto, User>().ReverseMap()
                 .ForMember(m=>m.User,opt=>opt.MapFrom(x=>x))

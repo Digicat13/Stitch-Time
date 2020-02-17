@@ -32,7 +32,7 @@ namespace StitchTime.Services
             var validator = new UserDtoValidator();
             validator.ValidateAndThrow(dto);
 
-           // await IsEmalInUse(dto.Email);
+           await IsEmalInUse(dto.Email);
 
             var user = new User
             {
@@ -56,7 +56,7 @@ namespace StitchTime.Services
             }
             else
             {
-                throw new System.Exception();
+                throw new FormatException("Bad password");
             }
 
             //foreach (var error in result.Errors)
@@ -69,6 +69,8 @@ namespace StitchTime.Services
         {
             var validator = new UserDtoValidator();
             validator.ValidateAndThrow(dto);
+
+            await IsEmailNull(dto.Email);
 
             var user = new User
             {
@@ -87,7 +89,7 @@ namespace StitchTime.Services
             }
             else
             {
-                throw new System.Exception();
+                throw new FormatException("Bad password");
             }
 
             //foreach (var error in result.Errors)
@@ -108,7 +110,18 @@ namespace StitchTime.Services
 
             if(user != null)
             {
-                throw new NullReferenceException();
+                throw new FormatException("Email is in use.");
+
+            }
+        }
+
+        private async Task IsEmailNull(string email)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                throw new FormatException("There is no email");
 
             }
         }

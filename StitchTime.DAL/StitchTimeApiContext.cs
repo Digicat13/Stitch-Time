@@ -81,6 +81,20 @@ namespace StitchTime.DAL
                 .HasForeignKey(e => e.StatusId)
                 .HasConstraintName("Report_Status");
             });
+
+            modelBuilder.Entity<Assignment>().HasData(
+                new Assignment() { Name = "Developing"},
+                new Assignment() { Name = "For review"},
+                new Assignment() { Name = "In review"}, 
+                new Assignment() { Name = "Bug fixing" }
+                );
+
+            modelBuilder.Entity<Status>().HasData(
+                new Status() { Name = "Opened"},
+                new Status() { Name = "Notified"},
+                new Status() { Name = "Accepted"},
+                new Status() { Name = "Declined"}
+                );
         }
     }
 }

@@ -21,7 +21,7 @@ namespace StitchTime.Controllers
             _userService = service;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetInfo")]
         public async Task<ActionResult<InfoByUserDto>> GetInfo()
         {
             try

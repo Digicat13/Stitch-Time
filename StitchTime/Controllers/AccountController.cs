@@ -29,11 +29,16 @@ namespace StitchTime.Controllers
             {
                 var result = await _accountService.SignUp(dto);
                 return Ok(result);
-            } catch(Exception ex)
+            }
+            catch (FormatException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
             {
                 return Problem(ex.Message);
             }
-        }
+}
 
         [HttpPost("SignIn")]
         public async Task<ActionResult<UserDto>> SignIn(UserDto dto)
@@ -43,9 +48,13 @@ namespace StitchTime.Controllers
                 var result = await _accountService.SignIn(dto);
                 return Ok(result);
             }
-            catch
+            catch (FormatException ex)
             {
-                return Problem();
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
             }
         }
 
@@ -58,9 +67,9 @@ namespace StitchTime.Controllers
                 await _accountService.Logout(Id);
                 return Ok();
             }
-            catch
+            catch(Exception ex)
             {
-                return Problem();
+                return Problem(ex.Message);
             }
         }
     }

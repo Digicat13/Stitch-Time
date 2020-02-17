@@ -16,11 +16,11 @@ namespace StitchTime.Core.Entities
 
         public double InitialRisk { get; set; }
 
-        public int ProjectManagerId { get; set; }
+        public string ProjectManagerId { get; set; }
 
         public User ProjectManager { get; set; }
 
-        public int TeamLeadId { get; set; }
+        public string TeamLeadId { get; set; }
 
         public User TeamLead { get; set; }
 

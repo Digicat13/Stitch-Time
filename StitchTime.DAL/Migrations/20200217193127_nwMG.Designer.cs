@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StitchTime.DAL;
 
 namespace StitchTime.DAL.Migrations
 {
     [DbContext(typeof(StitchTimeApiContext))]
-    partial class StitchTimeApiContextModelSnapshot : ModelSnapshot
+    [Migration("20200217193127_nwMG")]
+    partial class nwMG
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

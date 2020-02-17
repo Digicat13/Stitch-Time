@@ -69,6 +69,7 @@ namespace StitchTime
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IStartInfoService, StartInfoService>();
+            services.AddScoped<IProjectService, ProjectService>();
 
             services.AddControllers();
 

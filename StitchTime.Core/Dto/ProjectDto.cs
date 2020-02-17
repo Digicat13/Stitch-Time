@@ -16,9 +16,9 @@ namespace StitchTime.Core.Dto
 
         public double InitialRisk { get; set; }
 
-        public int ProjectManagerId { get; set; }
+        public string ProjectManagerId { get; set; }
 
-        public int TeamLeadId { get; set; }
+        public string TeamLeadId { get; set; }
 
         public List<UserViewDto> TeamMates { get; set; }
     }

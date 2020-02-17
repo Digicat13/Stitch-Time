@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +38,23 @@ namespace StitchTime.Services
             await _unitOfWork.SaveAsync();
             _mapper.Map(entity, infoByUser);
             return infoByUser;
+        }
+
+        public async Task<PmProjectsInfo> GetPmProjectsInfo(int Id)
+        {
+            var pmProjectsInfo = new PmProjectsInfo();
+            var entity = _unitOfWork.UserRepository
+                .GetAll().Where(x => x.Id == Id)
+                .Include(x=>x.ManageProjects)
+                .ToList()
+                .FirstOrDefault();
+            
+            var users = new List<UserViewDto>();
+            _mapper.Map(_unitOfWork.UserRepository.GetAll().ToList(), users);
+            _mapper.Map(entity, pmProjectsInfo);
+            pmProjectsInfo.Users = users;
+
+            return pmProjectsInfo;
         }
     }
 }

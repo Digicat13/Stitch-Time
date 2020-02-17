@@ -83,17 +83,17 @@ namespace StitchTime.DAL
             });
 
             modelBuilder.Entity<Assignment>().HasData(
-                new Assignment() { Name = "Developing"},
-                new Assignment() { Name = "For review"},
-                new Assignment() { Name = "In review"}, 
-                new Assignment() { Name = "Bug fixing" }
+                new Assignment() { Id = 1, Name = "Developing"},
+                new Assignment() { Id = 2, Name = "For review"},
+                new Assignment() { Id = 3, Name = "In review"}, 
+                new Assignment() { Id = 4, Name = "Bug fixing" }
                 );
 
             modelBuilder.Entity<Status>().HasData(
-                new Status() { Name = "Opened"},
-                new Status() { Name = "Notified"},
-                new Status() { Name = "Accepted"},
-                new Status() { Name = "Declined"}
+                new Status() { Id = 1, Name = "Opened"},
+                new Status() { Id = 2, Name = "Notified"},
+                new Status() { Id = 3, Name = "Accepted"},
+                new Status() { Id = 4, Name = "Declined"}
                 );
         }
     }

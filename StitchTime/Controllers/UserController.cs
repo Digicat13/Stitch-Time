@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using StitchTime.Core.Abstractions.Services;
 using StitchTime.Core.Dto;
+using StitchTime.Core.Entities;
 
 namespace StitchTime.Controllers
 {
@@ -20,12 +22,12 @@ namespace StitchTime.Controllers
             _userService = service;
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<InfoByUserDto>> GetInfoById(int id)
+        [HttpGet("GetInfo")]
+        public async Task<ActionResult<InfoByUserDto>> GetInfo()
         {
             try
             {
-                var result = await _userService.GetInfoById(id);
+                var result = await _userService.GetInfoById(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 return Ok(result);
             }
             catch (NullReferenceException)
@@ -34,12 +36,12 @@ namespace StitchTime.Controllers
             }
         }
 
-        [HttpGet("pmInfo/{id}")]
-        public async Task<ActionResult<PmProjectsInfo>> GetPmProjectsInfo(int id)
+        [HttpGet("GetPmProjectsInfo")]
+        public async Task<ActionResult<PmProjectsInfo>> GetPmProjectsInfo()
         {
             try
             {
-                var result = await _userService.GetPmProjectsInfo(id);
+                var result = await _userService.GetPmProjectsInfo(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 return Ok(result);
             }
             catch (NullReferenceException)

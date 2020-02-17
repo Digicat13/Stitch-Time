@@ -39,9 +39,9 @@ namespace StitchTime.Services
             return infoByUser;
         }
 
-        public PmProjectsInfo GetPmProjectsInfo(string Id)
+        public PmProjectsInfoDto GetPmProjectsInfo(string Id)
         {
-            var pmProjectsInfo = new PmProjectsInfo();
+            var pmProjectsInfo = new PmProjectsInfoDto();
             var entity = _unitOfWork.UserRepository
                 .GetAll().Where(x => x.Id == Id)
                 .Include(x=>x.ManageProjects)
@@ -54,6 +54,26 @@ namespace StitchTime.Services
             pmProjectsInfo.Users = users;
 
             return pmProjectsInfo;
+        }
+
+        public PmReportsInfoDto GetPmReportsInfo(string Id)
+        {
+            var pmReportsInfo = new PmReportsInfoDto();
+
+            var entity = _unitOfWork.UserRepository
+                .GetAll()
+                .Where(x => x.Id == Id)
+                .Include(x => x.ManageProjects)
+                .ThenInclude(x => x.Reports);
+
+            var users = new List<UserViewDto>();
+            _mapper.Map(_unitOfWork.UserRepository
+                .GetAll()
+                .Where(x => x.MemberTeams.Select(t => t.Team.Project.ProjectManager.Id).First() == Id).ToList(), users);
+            _mapper.Map(entity,pmReportsInfo);
+            pmReportsInfo.PmDevelopers = users;
+
+            return pmReportsInfo;
         }
     }
 }

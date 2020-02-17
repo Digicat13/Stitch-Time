@@ -2,6 +2,7 @@
 using StitchTime.Core.Abstractions;
 using StitchTime.Core.Abstractions.Services;
 using StitchTime.Core.Dto;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace StitchTime.Services
@@ -19,8 +20,8 @@ namespace StitchTime.Services
 
         public StartInfoDto GetStartInfo()
         {
-            var StatusList = _unitOfWork.StatusRepository.GetAll().Select(el => _mapper.Map(el, new StatusDto())).ToList();
-            var AssignmentList = _unitOfWork.AssignmentRepository.GetAll().Select(el => _mapper.Map(el, new AssignmentDto())).ToList();
+            List<StatusDto> StatusList = _unitOfWork.StatusRepository.GetAll().Select(el => _mapper.Map(el, new StatusDto())).ToList();
+            List<AssignmentDto> AssignmentList = _unitOfWork.AssignmentRepository.GetAll().Select(el => _mapper.Map(el, new AssignmentDto())).ToList();
 
             var InfoDto = new StartInfoDto
             {

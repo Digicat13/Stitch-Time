@@ -235,21 +235,28 @@ namespace StitchTime.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Assignment");
-                });
 
-            modelBuilder.Entity("StitchTime.Core.Entities.Password", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("PasswordValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Password");
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Developing"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "For review"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "In review"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Bug fixing"
+                        });
                 });
 
             modelBuilder.Entity("StitchTime.Core.Entities.Position", b =>
@@ -274,15 +281,32 @@ namespace StitchTime.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Abbrevation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("InitialEffrort")
+                        .HasColumnType("float");
+
+                    b.Property<double>("InitialRisk")
+                        .HasColumnType("float");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProjectManagerId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("TeamLeadId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ProjectManagerId");
+
+                    b.HasIndex("TeamLeadId");
 
                     b.ToTable("Project");
                 });
@@ -353,6 +377,28 @@ namespace StitchTime.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Status");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Opened"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Notified"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Accepted"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Declined"
+                        });
                 });
 
             modelBuilder.Entity("StitchTime.Core.Entities.Team", b =>
@@ -406,20 +452,18 @@ namespace StitchTime.DAL.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PasswordId")
+                    b.Property<int>("PositionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PositionId")
+                    b.Property<int?>("ProjectId")
                         .HasColumnType("int");
 
                     b.Property<string>("SecondName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("PasswordId")
-                        .IsUnique()
-                        .HasFilter("[PasswordId] IS NOT NULL");
-
                     b.HasIndex("PositionId");
+
+                    b.HasIndex("ProjectId");
 
                     b.HasDiscriminator().HasValue("User");
                 });
@@ -482,6 +526,10 @@ namespace StitchTime.DAL.Migrations
                         .HasForeignKey("ProjectManagerId")
                         .HasConstraintName("Project_ProjectManager")
                         .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("StitchTime.Core.Entities.User", "TeamLead")
+                        .WithMany()
+                        .HasForeignKey("TeamLeadId");
                 });
 
             modelBuilder.Entity("StitchTime.Core.Entities.Report", b =>
@@ -547,19 +595,16 @@ namespace StitchTime.DAL.Migrations
 
             modelBuilder.Entity("StitchTime.Core.Entities.User", b =>
                 {
-                    b.HasOne("StitchTime.Core.Entities.Password", "Password")
-                        .WithOne("User")
-                        .HasForeignKey("StitchTime.Core.Entities.User", "PasswordId")
-                        .HasConstraintName("User_Password")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("StitchTime.Core.Entities.Position", "Position")
                         .WithMany("Users")
                         .HasForeignKey("PositionId")
                         .HasConstraintName("User_Position")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("StitchTime.Core.Entities.Project", null)
+                        .WithMany("UserData")
+                        .HasForeignKey("ProjectId");
                 });
 #pragma warning restore 612, 618
         }

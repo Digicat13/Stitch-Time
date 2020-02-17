@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -38,19 +39,21 @@ namespace StitchTime.Services
             return infoByUser;
         }
 
-        public async Task<PmInfoDto> GetPmInfoById(int Id)
+        public async Task<PmProjectsInfo> GetPmProjectsInfo(int Id)
         {
-            var pmInfo = new PmInfoDto();
+            var pmProjectsInfo = new PmProjectsInfo();
             var entity = _unitOfWork.UserRepository
                 .GetAll().Where(x => x.Id == Id)
-                .Include(x => x.ManageProjects)
-                .ThenInclude(x => x.Reports)
-                .ThenInclude(x=>x.User/*.MemberTeams.Select(y=>y.Team)*/)
-                .ThenInclude(u=>u.MemberTeams)
+                .Include(x=>x.ManageProjects)
                 .ToList()
                 .FirstOrDefault();
-            _mapper.Map(entity, pmInfo);
-            return pmInfo;
+            
+            var users = new List<UserViewDto>();
+            _mapper.Map(_unitOfWork.UserRepository.GetAll().ToList(), users);
+            _mapper.Map(entity, pmProjectsInfo);
+            pmProjectsInfo.Users = users;
+
+            return pmProjectsInfo;
         }
     }
 }

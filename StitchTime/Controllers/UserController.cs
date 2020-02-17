@@ -35,11 +35,11 @@ namespace StitchTime.Controllers
         }
 
         [HttpGet("pmInfo/{id}")]
-        public async Task<ActionResult<PmInfoDto>> GetPmInfoById(int id)
+        public async Task<ActionResult<PmProjectsInfo>> GetPmProjectsInfo(int id)
         {
             try
             {
-                var result = await _userService.GetPmInfoById(id);
+                var result = await _userService.GetPmProjectsInfo(id);
                 return Ok(result);
             }
             catch (NullReferenceException)

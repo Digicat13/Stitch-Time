@@ -8,6 +8,6 @@ namespace StitchTime.Core.Abstractions.Services
     {
         public Task<InfoByUserDto> GetInfoById(int Id);
 
-        public Task<PmInfoDto> GetPmInfoById(int Id);
+        public Task<PmProjectsInfo> GetPmProjectsInfo(int Id);
     }
 }

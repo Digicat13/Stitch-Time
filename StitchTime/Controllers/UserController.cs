@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using StitchTime.Core.Abstractions.Services;
 using StitchTime.Core.Dto;
-using System.Security.Claims;
 
 namespace StitchTime.Controllers
 {
@@ -22,11 +22,25 @@ namespace StitchTime.Controllers
         }
 
         [HttpGet("GetInfo")]
-        public async Task<ActionResult<InfoByUserDto>> GetInfo()
+        public ActionResult<InfoByUserDto> GetInfo()
         {
             try
             {
-                var result = await _userService.GetInfoById(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var result = _userService.GetInfoById(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                return Ok(result);
+            }
+            catch (NullReferenceException)
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpGet("GetPmProjectsInfo")]
+        public ActionResult<PmProjectsInfo> GetPmProjectsInfo()
+        {
+            try
+            {
+                var result = _userService.GetPmProjectsInfo(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 return Ok(result);
             }
             catch (NullReferenceException)

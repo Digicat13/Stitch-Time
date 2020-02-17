@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -19,12 +21,12 @@ namespace StitchTime.Services
             _mapper = mapper;
         }
 
-        public async Task<InfoByUserDto> GetInfoById(string Id)
+        public InfoByUserDto GetInfoById(string Id)
         {
             var infoByUser = new InfoByUserDto();
 
             var entity = _unitOfWork.UserRepository
-                .GetAll().Where(x => x.Id == Id) // == .GetById(Id)
+                .GetAll().Where(x => x.Id == Id)
                 .Include(x => x.Position)
                 .Include(x => x.MemberTeams)
                 .ThenInclude(x => x.Team)
@@ -33,9 +35,25 @@ namespace StitchTime.Services
                 .ToList()
                 .FirstOrDefault();
 
-            await _unitOfWork.SaveAsync();
             _mapper.Map(entity, infoByUser);
             return infoByUser;
+        }
+
+        public PmProjectsInfo GetPmProjectsInfo(string Id)
+        {
+            var pmProjectsInfo = new PmProjectsInfo();
+            var entity = _unitOfWork.UserRepository
+                .GetAll().Where(x => x.Id == Id)
+                .Include(x=>x.ManageProjects)
+                .ToList()
+                .FirstOrDefault();
+            
+            var users = new List<UserViewDto>();
+            _mapper.Map(_unitOfWork.UserRepository.GetAll().ToList(), users);
+            _mapper.Map(entity, pmProjectsInfo);
+            pmProjectsInfo.Users = users;
+
+            return pmProjectsInfo;
         }
     }
 }

@@ -74,8 +74,16 @@ namespace StitchTime.DAL.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+<<<<<<< Updated upstream
                     b.Property<int>("ProjectManagerId")
                         .HasColumnType("int");
+=======
+                    b.Property<string>("ProjectManagerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<double>("SpentEffort")
+                        .HasColumnType("float");
+>>>>>>> Stashed changes
 
                     b.HasKey("Id");
 
@@ -167,7 +175,8 @@ namespace StitchTime.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProjectId");
+                    b.HasIndex("ProjectId")
+                        .IsUnique();
 
                     b.HasIndex("TeamLeadId");
 
@@ -234,8 +243,12 @@ namespace StitchTime.DAL.Migrations
                         .WithMany("ManageProjects")
                         .HasForeignKey("ProjectManagerId")
                         .HasConstraintName("Project_ProjectManager")
+<<<<<<< Updated upstream
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+=======
+                        .OnDelete(DeleteBehavior.NoAction);
+>>>>>>> Stashed changes
                 });
 
             modelBuilder.Entity("StitchTime.Core.Entities.Report", b =>
@@ -272,8 +285,8 @@ namespace StitchTime.DAL.Migrations
             modelBuilder.Entity("StitchTime.Core.Entities.Team", b =>
                 {
                     b.HasOne("StitchTime.Core.Entities.Project", "Project")
-                        .WithMany()
-                        .HasForeignKey("ProjectId")
+                        .WithOne("Team")
+                        .HasForeignKey("StitchTime.Core.Entities.Team", "ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

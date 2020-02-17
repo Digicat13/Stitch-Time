@@ -50,6 +50,10 @@ namespace StitchTime.Controllers
         }
 
         [HttpPut("{id}")]
+<<<<<<< Updated upstream
+=======
+        [Authorize]
+>>>>>>> Stashed changes
         public ActionResult<ReportDto> PutReport(int id, ReportDto report)
         {        
             try
@@ -72,6 +76,10 @@ namespace StitchTime.Controllers
         }
 
         [HttpPost]
+<<<<<<< Updated upstream
+=======
+        [Authorize]
+>>>>>>> Stashed changes
         public async Task<ActionResult<ReportDto>> PostReport(ReportDto report)
         {
             try
@@ -91,6 +99,10 @@ namespace StitchTime.Controllers
         }
 
         [HttpDelete("{id}")]
+<<<<<<< Updated upstream
+=======
+        [Authorize]
+>>>>>>> Stashed changes
         public async Task<ActionResult> DeleteReport(int id)
         {
             try
@@ -106,6 +118,6 @@ namespace StitchTime.Controllers
             {
                 return Problem();
             }
-        }       
+        }
     }
 }

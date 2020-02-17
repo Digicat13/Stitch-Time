@@ -1,11 +1,12 @@
 ﻿using System.Threading.Tasks;
-using StitchTime.Core.Abstractions.Repositories;
 using StitchTime.Core.Dto;
 
 namespace StitchTime.Core.Abstractions.Services
 {
     public interface IUserService
     {
-        public Task<InfoByUserDto> GetInfoById(int Id);
+        public PmProjectsInfoDto GetPmProjectsInfo(string Id);
+        public InfoByUserDto GetInfoById(string Id);
+        public PmReportsInfoDto GetPmReportsInfo(string Id);
     }
 }

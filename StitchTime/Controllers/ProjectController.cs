@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using StitchTime.Core.Abstractions.Services;
@@ -12,24 +11,23 @@ namespace StitchTime.Controllers
     [EnableCors("AllowMyOrigin")]
     [Route("[controller]")]
     [ApiController]
-    
-    public class ReportController : ControllerBase
-    {
-        private readonly IReportService _reportService;
 
-        public ReportController(IReportService service)
+    public class ProjectController : ControllerBase
+    {
+        private readonly IProjectService _projectService;
+
+        public ProjectController(IProjectService service)
         {
-            _reportService = service;
+            _projectService = service;
         }
 
         [HttpGet]
-        [Authorize]
-        public ActionResult<IEnumerable<ReportDto>> GetReports()
+        public ActionResult<IEnumerable<ProjectDto>> GetProjects()
         {
             try
             {
-                var result = _reportService.GetAll();
-                return  Ok(result);
+                var result = _projectService.GetAll();
+                return Ok(result);
             }
             catch
             {
@@ -38,12 +36,11 @@ namespace StitchTime.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
-        public async Task<ActionResult<ReportDto>> GetReport(int id)
+        public async Task<ActionResult<ProjectDto>> GetProject(int id)
         {
             try
             {
-                var result = await _reportService.GetById(id);
+                var result = await _projectService.GetById(id);
                 return Ok(result);
             }
             catch (NullReferenceException)
@@ -53,17 +50,11 @@ namespace StitchTime.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize]
-
-        public ActionResult<ReportDto> PutReport(int id, ReportDto report)
-        {        
+        public ActionResult<ProjectDto> PutProject(int id, ProjectDto Project)
+        {
             try
             {
-                if(report.Id != id)
-                {
-                    return BadRequest("Id doesn`t match");
-                }
-                var result = _reportService.Update(report);
+                var result = _projectService.Update(Project);
                 return Ok(result);
             }
             catch (NullReferenceException)
@@ -77,34 +68,25 @@ namespace StitchTime.Controllers
         }
 
         [HttpPost]
-        [Authorize]
-
-        public async Task<ActionResult<ReportDto>> PostReport(ReportDto report)
+        public async Task<ActionResult<ProjectDto>> PostProject(ProjectDto Project)
         {
             try
             {
-                await _reportService.Insert(report);
-
-                return Ok(report);
+                await _projectService.Insert(Project);
+                return Ok(Project);
             }
-            catch (NullReferenceException)
+            catch (Exception)
             {
-                return NotFound();
-            }
-            catch (Exception ex)
-            {
-                return Problem(ex.Message);
+                return BadRequest();
             }
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
-
-        public async Task<ActionResult> DeleteReport(int id)
+        public async Task<ActionResult> DeleteProject(int id)
         {
             try
             {
-                await _reportService.Delete(id);
+                await _projectService.Delete(id);
                 return NoContent();
             }
             catch (NullReferenceException)
@@ -115,6 +97,6 @@ namespace StitchTime.Controllers
             {
                 return Problem();
             }
-        }       
+        }
     }
 }

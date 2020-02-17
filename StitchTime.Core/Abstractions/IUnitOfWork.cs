@@ -15,6 +15,11 @@ namespace StitchTime.Core.Abstractions
 
         public ITeamRepository TeamRepository { get; }
 
+        public IStatusRepository StatusRepository { get; }
+
+        public IAssignmentRepository AssignmentRepository { get; }
+
+
         public void Save();
         public Task SaveAsync();
     }

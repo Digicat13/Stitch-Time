@@ -11,8 +11,9 @@ namespace StitchTime.Core
         public Mapper()
         {
             CreateMap<UserDto, User>().ReverseMap();
+            CreateMap<UserLoginDto, User>().ReverseMap();
+
             CreateMap<PositionDto, Position>().ReverseMap();
-            CreateMap<PasswordDto, Password>().ReverseMap();
             CreateMap<ReportDto, Report>().ReverseMap();
             CreateMap<StatusDto, Status>().ReverseMap();
             CreateMap<AssignmentDto, Assignment>().ReverseMap();
@@ -20,12 +21,22 @@ namespace StitchTime.Core
             CreateMap<ProjectViewDto, Project>().ReverseMap();
             CreateMap<TeamMemberDto, TeamMember>().ReverseMap();
             CreateMap<TeamDto, Team>().ReverseMap();
+            CreateMap<StatusDto, Status>().ReverseMap();
+            CreateMap<AssignmentDto, Assignment>().ReverseMap();
+            CreateMap<ProjectDto, Project>().ReverseMap();
 
             CreateMap<InfoByUserDto, User>().ReverseMap()
                 .ForMember(m=>m.User,opt=>opt.MapFrom(x=>x))
                 .ForMember(m=>m.Position,opt=>opt.MapFrom(x=>x.Position))
                 .ForMember(m=>m.Reports,opt=>opt.MapFrom(x=>x.Reports))
                 .ForMember(m=>m.Projects,opt=>opt.MapFrom(x=>x.MemberTeams.Select(t=> t.Team.Project)));
+
+            CreateMap<PmProjectsInfoDto, User>().ReverseMap()
+                .ForMember(m => m.Projects, opt => opt.MapFrom(x => x.ManageProjects));
+
+            CreateMap<PmReportsInfoDto, User>().ReverseMap()
+                .ForMember(x => x.Projects, opt => opt.MapFrom(x => x.ManageProjects))
+                .ForMember(x => x.DevelopersReports, opt => opt.MapFrom(x => x.ManageProjects.SelectMany(r=>r.Reports)));
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace StitchTime.Core.Abstractions.Repositories
 {
-    public interface IProjectRepository : IBaseRepository<Project, int>
+    public interface IAssignmentRepository : IBaseRepository<Assignment, int>
     {
     }
 }

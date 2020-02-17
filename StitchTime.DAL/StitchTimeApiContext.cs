@@ -1,13 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using StitchTime.Core.Entities;
 
 namespace StitchTime.DAL
 {
-    public class StitchTimeApiContext : DbContext
+    public class StitchTimeApiContext : IdentityDbContext
     {
         public DbSet<User> User { get; set; }
-
-        public DbSet<Password> Password { get; set; }
 
         public DbSet<Position> Position { get; set; }
 
@@ -21,13 +20,9 @@ namespace StitchTime.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<User>(entity =>
             {
-                entity.HasOne(e => e.Password)
-                .WithOne(e => e.User)
-                .HasForeignKey<User>(e => e.PasswordId)
-                .HasConstraintName("User_Password");
-
                 entity.HasOne(e => e.Position)
                 .WithMany(e => e.Users)
                 .HasForeignKey(e => e.PositionId)
@@ -86,6 +81,20 @@ namespace StitchTime.DAL
                 .HasForeignKey(e => e.StatusId)
                 .HasConstraintName("Report_Status");
             });
+
+            modelBuilder.Entity<Assignment>().HasData(
+                new Assignment() { Id = 1, Name = "Developing"},
+                new Assignment() { Id = 2, Name = "For review"},
+                new Assignment() { Id = 3, Name = "In review"}, 
+                new Assignment() { Id = 4, Name = "Bug fixing" }
+                );
+
+            modelBuilder.Entity<Status>().HasData(
+                new Status() { Id = 1, Name = "Opened"},
+                new Status() { Id = 2, Name = "Notified"},
+                new Status() { Id = 3, Name = "Accepted"},
+                new Status() { Id = 4, Name = "Declined"}
+                );
         }
     }
 }

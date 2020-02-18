@@ -10,7 +10,7 @@ using StitchTime.DAL;
 namespace StitchTime.DAL.Migrations
 {
     [DbContext(typeof(StitchTimeApiContext))]
-    [Migration("20200217194945_CreateDb")]
+    [Migration("20200217210936_CreateDb")]
     partial class CreateDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -301,14 +301,9 @@ namespace StitchTime.DAL.Migrations
                     b.Property<string>("ProjectManagerId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("TeamLeadId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ProjectManagerId");
-
-                    b.HasIndex("TeamLeadId");
 
                     b.ToTable("Project");
                 });
@@ -418,7 +413,8 @@ namespace StitchTime.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProjectId");
+                    b.HasIndex("ProjectId")
+                        .IsUnique();
 
                     b.HasIndex("TeamLeadId");
 
@@ -528,10 +524,6 @@ namespace StitchTime.DAL.Migrations
                         .HasForeignKey("ProjectManagerId")
                         .HasConstraintName("Project_ProjectManager")
                         .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("StitchTime.Core.Entities.User", "TeamLead")
-                        .WithMany()
-                        .HasForeignKey("TeamLeadId");
                 });
 
             modelBuilder.Entity("StitchTime.Core.Entities.Report", b =>
@@ -567,8 +559,8 @@ namespace StitchTime.DAL.Migrations
             modelBuilder.Entity("StitchTime.Core.Entities.Team", b =>
                 {
                     b.HasOne("StitchTime.Core.Entities.Project", "Project")
-                        .WithMany()
-                        .HasForeignKey("ProjectId")
+                        .WithOne("Team")
+                        .HasForeignKey("StitchTime.Core.Entities.Team", "ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

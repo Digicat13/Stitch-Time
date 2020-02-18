@@ -16,6 +16,7 @@ namespace StitchTime.DAL
         private TeamRepository _teamRepository;
         private StatusRepository _statusRepository;
         private AssignmentRepository _assignmentRepository;
+        private PositonRepository _positonRepository;
 
         public UnitOfWork(StitchTimeApiContext dbContext)
         {
@@ -35,6 +36,8 @@ namespace StitchTime.DAL
         public IStatusRepository StatusRepository => _statusRepository ??= new StatusRepository(_dbContext);
 
         public IAssignmentRepository AssignmentRepository => _assignmentRepository ??= new AssignmentRepository(_dbContext);
+
+        public IPositionRepository PositionRepository => _positonRepository ??= new PositonRepository(_dbContext);
 
         public void Dispose()
         {

@@ -7,5 +7,7 @@ namespace StitchTime.Core.Dto
         public List<StatusDto> statusDto { get; set; }
 
         public List<AssignmentDto> assignmentDto { get; set; }
+
+        public List<PositionDto> positionDto { get; set; }
     }
 }

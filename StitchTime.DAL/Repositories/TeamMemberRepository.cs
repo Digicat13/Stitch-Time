@@ -6,7 +6,7 @@ using StitchTime.Core.Entities;
 
 namespace StitchTime.DAL.Repositories
 {
-    class TeamMemberRepository : BaseRepository<TeamMember, int>, ITeamMemberRepository
+    public class TeamMemberRepository : BaseRepository<TeamMember, int>, ITeamMemberRepository
     {
         public TeamMemberRepository(StitchTimeApiContext context) : base(context)
         {

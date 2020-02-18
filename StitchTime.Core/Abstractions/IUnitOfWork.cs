@@ -18,6 +18,8 @@ namespace StitchTime.Core.Abstractions
         public IStatusRepository StatusRepository { get; }
 
         public IAssignmentRepository AssignmentRepository { get; }
+        
+        public IPositionRepository PositionRepository { get; }
 
 
         public void Save();

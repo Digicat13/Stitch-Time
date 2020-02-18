@@ -8,6 +8,8 @@ using StitchTime.Core.Validators;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MailKit.Net.Smtp;
+using MimeKit;
 
 namespace StitchTime.Services
 {
@@ -77,6 +79,8 @@ namespace StitchTime.Services
             _unitOfWork.ReportRepository.Update(entity);
             _unitOfWork.Save();
             _mapper.Map(entity, reportDto);
+
+            SendEmail(new MailboxAddress("User", _unitOfWork.UserRepository.GetAll().Where(x => x.Id == reportDto.UserId).ToList().FirstOrDefault().Email), "You have new report to be checked", "Notified report");
             return reportDto;
 
         }
@@ -105,5 +109,40 @@ namespace StitchTime.Services
             return reportDto;
         }
 
+        public void SendEmail(MailboxAddress To, string Body, string Subject)
+        {
+            MimeMessage message = new MimeMessage();
+
+            MailboxAddress From = new MailboxAddress("Admin",
+            "David.Pozhar.Pz.2017@lpnu.ua");
+
+            message.From.Add(From);
+
+            message.To.Add(To);
+
+            message.Subject = Subject;
+
+            BodyBuilder bodyBuilder = new BodyBuilder();
+
+            bodyBuilder.HtmlBody = "<h1>ALLERT</h1>";
+
+            bodyBuilder.TextBody = Body;
+
+            message.Body = bodyBuilder.ToMessageBody();
+
+            SmtpClient client = new SmtpClient();
+
+            client.Connect("smtp.mai.com", 463, true);
+
+            //client.Authenticate("David.Pozhar.Pz.2017@lpnu.ua", "08.07.1999");
+
+            client.Authenticate("David.Pozhar.Pz.2017@lpnu.ua", "08.07.1999");
+
+            client.Send(message);
+
+            client.Disconnect(true);
+
+            client.Dispose();
+        }
     }
 }

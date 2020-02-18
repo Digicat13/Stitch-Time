@@ -23,7 +23,6 @@ namespace StitchTime.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public ActionResult<IEnumerable<ReportDto>> GetReports()
         {
             try
@@ -38,7 +37,6 @@ namespace StitchTime.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
         public async Task<ActionResult<ReportDto>> GetReport(int id)
         {
             try
@@ -53,7 +51,6 @@ namespace StitchTime.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize]
 
         public ActionResult<ReportDto> PutReport(int id, ReportDto report)
         {        
@@ -77,7 +74,6 @@ namespace StitchTime.Controllers
         }
 
         [HttpPost]
-        [Authorize]
 
         public async Task<ActionResult<ReportDto>> PostReport(ReportDto report)
         {
@@ -97,8 +93,15 @@ namespace StitchTime.Controllers
             }
         }
 
+        [HttpPut]
+        
+        public ActionResult<ReportDto> Notify(ReportDto report)
+        {
+            var result = _reportService.Notify(report);
+            return Ok(result);
+        }
+
         [HttpDelete("{id}")]
-        [Authorize]
 
         public async Task<ActionResult> DeleteReport(int id)
         {

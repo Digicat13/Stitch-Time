@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using StitchTime.Core.Abstractions;
 using StitchTime.Core.Abstractions.Services;
 using StitchTime.Core.Dto;
@@ -22,7 +23,7 @@ namespace StitchTime.Services
 
         public List<ProjectDto> GetAll()
         {
-            return _unitOfWork.ProjectRepository.GetAll().Select(el => _mapper.Map(el, new ProjectDto())).ToList();
+            return _unitOfWork.ProjectRepository.GetAll().Include(x=>x.Team).Select(el => _mapper.Map(el, new ProjectDto())).ToList();
         }
 
         public async Task<ProjectDto> GetById(int Id)

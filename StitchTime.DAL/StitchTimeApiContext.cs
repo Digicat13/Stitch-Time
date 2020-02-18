@@ -95,6 +95,12 @@ namespace StitchTime.DAL
                 new Status() { Id = 3, Name = "Accepted"},
                 new Status() { Id = 4, Name = "Declined"}
                 );
+
+            modelBuilder.Entity<Position>().HasData(
+                new Position() { Id = 1, PositionName = "Developer"},
+                new Position() { Id = 2, PositionName = "TeamLead"},
+                new Position() { Id = 3, PositionName = "ProjectManager" }
+                );
         }
     }
 }

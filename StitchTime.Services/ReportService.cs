@@ -67,5 +67,43 @@ namespace StitchTime.Services
             await _unitOfWork.ReportRepository.Delete(Id);
             await _unitOfWork.SaveAsync();
         }
+
+        public ReportDto Notify(ReportDto reportDto)
+        {
+            reportDto.StatusId = 2;
+            var entity = new Report();
+            _mapper.Map(reportDto, entity);
+            entity.UpdateDate = System.DateTime.UtcNow;
+            _unitOfWork.ReportRepository.Update(entity);
+            _unitOfWork.Save();
+            _mapper.Map(entity, reportDto);
+            return reportDto;
+
+        }
+
+        public ReportDto AcceptReport(ReportDto reportDto)
+        {
+            reportDto.StatusId = 3;
+            var entity = new Report();
+            _mapper.Map(reportDto, entity);
+            entity.UpdateDate = System.DateTime.UtcNow;
+            _unitOfWork.ReportRepository.Update(entity);
+            _unitOfWork.Save();
+            _mapper.Map(entity, reportDto);
+            return reportDto;
+        }
+
+        public ReportDto DeclineReport(ReportDto reportDto)
+        {
+            reportDto.StatusId = 4;
+            var entity = new Report();
+            _mapper.Map(reportDto, entity);
+            entity.UpdateDate = System.DateTime.UtcNow;
+            _unitOfWork.ReportRepository.Update(entity);
+            _unitOfWork.Save();
+            _mapper.Map(entity, reportDto);
+            return reportDto;
+        }
+
     }
 }

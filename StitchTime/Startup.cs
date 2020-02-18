@@ -48,7 +48,9 @@ namespace StitchTime
             services.AddDbContext<StitchTimeApiContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<StitchTimeApiContext>();
+                .AddEntityFrameworkStores<StitchTimeApiContext>()
+                .AddRoleManager<RoleManager<IdentityRole>>();
+
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -70,6 +72,7 @@ namespace StitchTime
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IStartInfoService, StartInfoService>();
             services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<IAdminService, AdminService>();
 
             services.AddControllers();
 

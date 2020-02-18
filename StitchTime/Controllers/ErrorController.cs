@@ -14,7 +14,6 @@ namespace StitchTime.Controllers
     [ApiController]
     public class ErrorController
     {
-        int p;
         //private readonly ILogger<ErrorController> logger;
         //public ErrorController(ILogger<ErrorController> logger)
         //{

@@ -272,6 +272,23 @@ namespace StitchTime.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Position");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            PositionName = "Developer"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            PositionName = "TeamLead"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            PositionName = "ProjectManager"
+                        });
                 });
 
             modelBuilder.Entity("StitchTime.Core.Entities.Project", b =>
@@ -298,6 +315,12 @@ namespace StitchTime.DAL.Migrations
 
                     b.Property<string>("ProjectManagerId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<double>("SpentEffort")
+                        .HasColumnType("float");
+
+                    b.Property<string>("TeamLeadId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

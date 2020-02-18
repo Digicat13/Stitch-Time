@@ -42,6 +42,8 @@
     <Compile Remove="Migrations\20200217193127_nwMG.Designer.cs" />
     <Compile Remove="Migrations\20200217194945_CreateDb.cs" />
     <Compile Remove="Migrations\20200217194945_CreateDb.Designer.cs" />
+    <Compile Remove="Migrations\20200218052216_CreateDb.cs" />
+    <Compile Remove="Migrations\20200218052216_CreateDb.Designer.cs" />
 
   </ItemGroup>
 

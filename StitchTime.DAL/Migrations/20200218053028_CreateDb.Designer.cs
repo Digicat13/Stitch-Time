@@ -10,13 +10,8 @@ using StitchTime.DAL;
 namespace StitchTime.DAL.Migrations
 {
     [DbContext(typeof(StitchTimeApiContext))]
-<<<<<<< HEAD:StitchTime.DAL/Migrations/20200217205833_Init.Designer.cs
-    [Migration("20200217205833_Init")]
-    partial class Init
-=======
-    [Migration("20200217210936_CreateDb")]
+    [Migration("20200218053028_CreateDb")]
     partial class CreateDb
->>>>>>> Login:StitchTime.DAL/Migrations/20200217210936_CreateDb.Designer.cs
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -279,6 +274,23 @@ namespace StitchTime.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Position");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            PositionName = "Developer"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            PositionName = "TeamLead"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            PositionName = "ProjectManager"
+                        });
                 });
 
             modelBuilder.Entity("StitchTime.Core.Entities.Project", b =>
@@ -305,6 +317,12 @@ namespace StitchTime.DAL.Migrations
 
                     b.Property<string>("ProjectManagerId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<double>("SpentEffort")
+                        .HasColumnType("float");
+
+                    b.Property<string>("TeamLeadId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

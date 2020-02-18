@@ -80,7 +80,15 @@ namespace StitchTime.Services
             _unitOfWork.Save();
             _mapper.Map(entity, reportDto);
 
-            SendEmail(new MailboxAddress("User", _unitOfWork.UserRepository.GetAll().Where(x => x.Id == reportDto.UserId).ToList().FirstOrDefault().Email), "You have new report to be checked", "Notified report");
+         //   var To = _unitOfWork.UserRepository.GetAll().Where(x => x.Id == (_unitOfWork.ProjectRepository.GetAll().Where(x => x.Id == reportDto.ProjectId).ToList().FirstOrDefault().ProjectManagerId)).ToList().FirstOrDefault().Email;
+            var PmId = _unitOfWork.ProjectRepository.GetAll().Where(x => x.Id == reportDto.ProjectId).ToList().FirstOrDefault().ProjectManagerId;
+            var EmailTo = _unitOfWork.UserRepository.GetAll().Where(x => x.Id == PmId).ToList().FirstOrDefault().Email;
+            SendEmail(new MailboxAddress("User",EmailTo), "You have new report to be checked", "Notified report");
+
+            var TmId = _unitOfWork.TeamRepository.GetAll().Where(x => x.ProjectId == reportDto.ProjectId).ToList().FirstOrDefault().TeamLeadId;
+            EmailTo = _unitOfWork.UserRepository.GetAll().Where(x => x.Id == TmId).ToList().FirstOrDefault().Email;
+            SendEmail(new MailboxAddress("User", EmailTo), "You have new report to be checked", "Notified report");
+
             return reportDto;
 
         }
@@ -91,27 +99,25 @@ namespace StitchTime.Services
             var entity = new Report();
             _mapper.Map(reportDto, entity);
             entity.UpdateDate = System.DateTime.UtcNow;
-                   
+
             _unitOfWork.ReportRepository.Update(entity);
             _unitOfWork.Save();
             _mapper.Map(entity, reportDto);
+
+            TrackStatus(reportDto);
             return reportDto;
         }
 
-        public ReportDto TrackStatus(ReportDto reportDto)
+        public void TrackStatus(ReportDto reportDto)
         {
-            var entity = new Report();
-            _mapper.Map(reportDto, entity);
+           
 
-            if (_unitOfWork.StatusRepository.GetById(reportDto.StatusId).Result.Name != "Accepted")
+            if (_unitOfWork.StatusRepository.GetById(reportDto.StatusId).Result.Name == "Accepted")
             {
                 _unitOfWork.ProjectRepository.GetById(reportDto.ProjectId).Result.SpentEffort += (reportDto.Time + reportDto.Overtime);
-                _unitOfWork.ProjectRepository.GetById(reportDto.ProjectId).Result.InitialRisk += ((reportDto.Time + reportDto.Overtime)/reportDto.Time);
+                _unitOfWork.ProjectRepository.GetById(reportDto.ProjectId).Result.InitialRisk += ((reportDto.Time + reportDto.Overtime) / reportDto.Time);
             }
-            _unitOfWork.ReportRepository.Update(entity);
             _unitOfWork.Save();
-            _mapper.Map(entity, reportDto);
-            return reportDto;
         }
 
         public ReportDto DeclineReport(ReportDto reportDto)
@@ -125,14 +131,13 @@ namespace StitchTime.Services
             _mapper.Map(entity, reportDto);
             return reportDto;
         }
-<<<<<<< HEAD
 
         public void SendEmail(MailboxAddress To, string Body, string Subject)
         {
             MimeMessage message = new MimeMessage();
 
             MailboxAddress From = new MailboxAddress("Admin",
-            "David.Pozhar.Pz.2017@lpnu.ua");
+            "stitch.time.admin@ukr.net");
 
             message.From.Add(From);
 
@@ -142,19 +147,17 @@ namespace StitchTime.Services
 
             BodyBuilder bodyBuilder = new BodyBuilder();
 
-            bodyBuilder.HtmlBody = "<h1>ALLERT</h1>";
-
-            bodyBuilder.TextBody = Body;
+            bodyBuilder.HtmlBody = "<p>" + Body + "</p><br> http://localhost:4200/home/notifiedreports";
 
             message.Body = bodyBuilder.ToMessageBody();
 
             SmtpClient client = new SmtpClient();
 
-            client.Connect("smtp.mai.com", 463, true);
+            client.Connect("smtp.ukr.net", 465, true);
 
             //client.Authenticate("David.Pozhar.Pz.2017@lpnu.ua", "08.07.1999");
 
-            client.Authenticate("David.Pozhar.Pz.2017@lpnu.ua", "08.07.1999");
+            client.Authenticate("stitch.time.admin@ukr.net", "stitch123");
 
             client.Send(message);
 
@@ -162,7 +165,6 @@ namespace StitchTime.Services
 
             client.Dispose();
         }
-=======
->>>>>>> 6983fe12ef3f8c140876fcc06eeb4c2e20cd4e89
+
     }
 }

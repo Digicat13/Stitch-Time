@@ -14,9 +14,6 @@ namespace StitchTime.Core.Validators
                 .LessThanOrEqualTo(maxTime)
                 .GreaterThan(0)
                 .WithMessage("Bad report info");
-            RuleFor(x => x.Overtime)
-                .GreaterThan(0)
-                .WithMessage("Bad report info.");
             RuleFor(x => x.Description)
                 .NotEmpty()
                 .WithMessage("Empty description");

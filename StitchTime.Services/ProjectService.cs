@@ -39,6 +39,9 @@ namespace StitchTime.Services
             var entity = new Project();
             _mapper.Map(ProjectDto, entity);
             await _unitOfWork.ProjectRepository.Insert(entity);
+            var user = _unitOfWork.UserRepository.GetById(ProjectDto.TeamLeadId).Result;
+            user.PositionId = 2;
+            _unitOfWork.UserRepository.Update(user);
             await _unitOfWork.SaveAsync();
             _mapper.Map(entity, ProjectDto);
             return ProjectDto;

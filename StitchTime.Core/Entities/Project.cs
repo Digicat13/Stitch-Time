@@ -14,9 +14,13 @@ namespace StitchTime.Core.Entities
 
         public double InitialEffrort { get; set; }
 
+        public double SpentEffort { get; set; }
+            
         public double InitialRisk { get; set; }
 
         public string ProjectManagerId { get; set; }
+
+        public string TeamLeadId { get; set; }
 
         public User ProjectManager { get; set; }
 

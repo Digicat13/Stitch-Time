@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
-using FluentValidation;
 using StitchTime.Core.Abstractions;
 using StitchTime.Core.Abstractions.Services;
 using StitchTime.Core.Dto;
 using StitchTime.Core.Entities;
-using StitchTime.Core.Validators;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -37,8 +35,6 @@ namespace StitchTime.Services
 
         public async Task<ReportDto> Insert(ReportDto reportDto)
         {
-            var validator = new ReportValidator();
-            validator.ValidateAndThrow(reportDto);
             var entity = new Report();
             _mapper.Map(reportDto, entity);
             entity.CreateDate = System.DateTime.UtcNow;
@@ -66,6 +62,23 @@ namespace StitchTime.Services
         {
             await _unitOfWork.ReportRepository.Delete(Id);
             await _unitOfWork.SaveAsync();
+        }
+
+        public ReportDto TrackStatus(ReportDto reportDto)
+        {
+            var entity = new Report();
+            _mapper.Map(reportDto, entity);
+
+            if (_unitOfWork.StatusRepository.GetById(reportDto.StatusId).Result.Name != "Accepted")
+            {
+                _unitOfWork.ProjectRepository.GetById(reportDto.ProjectId).Result.SpentEffort += (reportDto.Time + reportDto.Overtime);
+                _unitOfWork.ProjectRepository.GetById(reportDto.ProjectId).Result.InitialRisk += ((reportDto.Time + reportDto.Overtime)/reportDto.Time);
+            }
+            
+            _unitOfWork.ReportRepository.Update(entity);
+            _unitOfWork.Save();
+            _mapper.Map(entity, reportDto);
+            return reportDto;
         }
     }
 }

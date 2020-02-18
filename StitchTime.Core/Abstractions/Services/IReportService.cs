@@ -15,5 +15,8 @@ namespace StitchTime.Core.Abstractions.Services
         public ReportDto Update(ReportDto reportDto);
 
         public Task Delete(int Id);
+
+        public ReportDto TrackStatus(ReportDto reportDto);
+
     }
 }

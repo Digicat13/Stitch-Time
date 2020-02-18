@@ -93,13 +93,50 @@ namespace StitchTime.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPut ("Notigy")]
         
         public ActionResult<ReportDto> Notify(ReportDto report)
         {
-            var result = _reportService.Notify(report);
-            return Ok(result);
+            try
+            {
+                var result = _reportService.Notify(report);
+                return Ok(result);
+            } catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
         }
+
+        [HttpPut("Accept")]
+
+        public ActionResult<ReportDto> Accept(ReportDto report)
+        {
+            try
+            {
+                var result = _reportService.AcceptReport(report);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
+
+        [HttpPut("Decline")]
+
+        public ActionResult<ReportDto> Decline(ReportDto report)
+        {
+            try
+            {
+                var result = _reportService.DeclineReport(report);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return Problem(ex.Message);
+            }
+        }
+
 
         [HttpDelete("{id}")]
 

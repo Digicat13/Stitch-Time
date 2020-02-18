@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using StitchTime.Core.Dto;
+using System;
 
 namespace StitchTime.Core.Validators
 {
@@ -11,10 +12,21 @@ namespace StitchTime.Core.Validators
             RuleFor(x => x.Time)
                 .NotEmpty()
                 .LessThanOrEqualTo(maxTime)
+                .GreaterThan(0)
                 .WithMessage("Bad report info");
+            RuleFor(x => x.Overtime)
+                .GreaterThan(0)
+                .WithMessage("Bad report info.");
             RuleFor(x => x.Description)
                 .NotEmpty()
                 .WithMessage("Empty description");
+            RuleFor(x => x.StartDate.DayOfWeek)
+                .NotEqual(DayOfWeek.Saturday)
+                .NotEqual(DayOfWeek.Sunday)
+                .WithMessage("Don't work on weekend :)");
+            RuleFor(x => x.StartDate)
+                .LessThanOrEqualTo(x => x.EndDate)
+                .WithMessage("Start date must stand before end date.");
         }
     }
 }

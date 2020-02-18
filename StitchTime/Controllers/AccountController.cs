@@ -58,12 +58,12 @@ namespace StitchTime.Controllers
             }
         }
 
-        [HttpPost("Logout")]
-        public async Task<ActionResult> Logout()
+        [HttpGet("Logout/{id}")]
+        public async Task<ActionResult> Logout(string id)
         {
             try
             {
-                var Id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var Id = id;
                 await _accountService.Logout(Id);
                 return Ok();
             }

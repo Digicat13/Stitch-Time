@@ -8,7 +8,7 @@ namespace StitchTime.Core.Abstractions.Services
     {
         public List<ProjectDto> GetAll();
 
-        public Task<ProjectDto> GetById(int Id);
+        public ProjectDto GetById(int Id);
 
         public Task<ProjectDto> Insert(ProjectDto projectDto);
 

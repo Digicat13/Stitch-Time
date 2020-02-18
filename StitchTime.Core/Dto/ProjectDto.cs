@@ -14,6 +14,8 @@ namespace StitchTime.Core.Dto
 
         public double InitialEffrort { get; set; }
 
+        public double SpentEffort { get; set; }
+
         public double InitialRisk { get; set; }
 
         public string ProjectManagerId { get; set; }

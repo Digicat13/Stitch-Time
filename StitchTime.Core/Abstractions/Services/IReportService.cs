@@ -21,5 +21,8 @@ namespace StitchTime.Core.Abstractions.Services
         public ReportDto AcceptReport(ReportDto reportDto);
 
         public ReportDto DeclineReport(ReportDto reportDto);
+
+        public ReportDto TrackStatus(ReportDto reportDto);
+
     }
 }

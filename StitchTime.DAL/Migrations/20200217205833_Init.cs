@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace StitchTime.DAL.Migrations
 {
-    public partial class CreateDb : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -153,8 +153,7 @@ namespace StitchTime.DAL.Migrations
                     Description = table.Column<string>(nullable: true),
                     InitialEffrort = table.Column<double>(nullable: false),
                     InitialRisk = table.Column<double>(nullable: false),
-                    ProjectManagerId = table.Column<string>(nullable: true),
-                    TeamLeadId = table.Column<string>(nullable: true)
+                    ProjectManagerId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -375,11 +374,6 @@ namespace StitchTime.DAL.Migrations
                 column: "ProjectManagerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Project_TeamLeadId",
-                table: "Project",
-                column: "TeamLeadId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Report_AssignmentId",
                 table: "Report",
                 column: "AssignmentId");
@@ -402,7 +396,8 @@ namespace StitchTime.DAL.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Team_ProjectId",
                 table: "Team",
-                column: "ProjectId");
+                column: "ProjectId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Team_TeamLeadId",
@@ -457,24 +452,12 @@ namespace StitchTime.DAL.Migrations
                 column: "ProjectManagerId",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Project_AspNetUsers_TeamLeadId",
-                table: "Project",
-                column: "TeamLeadId",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
                 name: "Project_ProjectManager",
-                table: "Project");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Project_AspNetUsers_TeamLeadId",
                 table: "Project");
 
             migrationBuilder.DropTable(

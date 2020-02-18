@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using StitchTime.Core.Abstractions;
@@ -49,7 +47,7 @@ namespace StitchTime.Services
                 .FirstOrDefault();
             
             var users = new List<UserViewDto>();
-            _mapper.Map(_unitOfWork.UserRepository.GetAll().ToList(), users);
+            _mapper.Map(_unitOfWork.UserRepository.GetAll().Where(x=>x.PositionId!=3).ToList(), users);
             _mapper.Map(entity, pmProjectsInfo);
             pmProjectsInfo.Users = users;
 
@@ -66,10 +64,11 @@ namespace StitchTime.Services
                 .Include(x => x.ManageProjects)
                 .ThenInclude(x => x.Reports).ToList().FirstOrDefault();
 
-            var reports = entity.ManageProjects.SelectMany(x => x.Reports.Select(r=> _mapper.Map(r, new ReportDto()))).ToList();
+            var reports = entity.ManageProjects.SelectMany(x => x.Reports
+                .Select(r=> _mapper.Map(r, new ReportDto()))).ToList();
+            reports = reports.Where(x => (x.StatusId == 2 || x.StatusId == 3)).ToList();
             
-
-            var users = new List<UserViewDto>();
+            var users = new List<UserViewDto>(); 
 
             _mapper.Map(_unitOfWork.UserRepository
                 .GetAll()
@@ -83,25 +82,27 @@ namespace StitchTime.Services
             return pmReportsInfo;
         }
 
-        //public TeamLeadInfoDto GetTeamLeadInfo(string id)
-        //{
-        //    var info = new TeamLeadInfoDto();
+        public TeamLeadInfoDto GetTeamLeadInfo(string id)
+        {
+            var info = new TeamLeadInfoDto();
 
-        //    var entity = _unitOfWork.UserRepository
-        //        .GetAll()
-        //        .Where(x => x.Id == id)
-        //        .Include(x => x.LeadTeams)
-        //        .ThenInclude(x => x.TeamMembers)
-        //        .ThenInclude(x => x.User)
-        //        .ThenInclude(x => x.Reports)
-        //        .Include(x => x.Reports)
-        //        .ToList()
-        //        .FirstOrDefault();
+            var entity = _unitOfWork.UserRepository
+                .GetAll()
+                .Where(x => x.Id == id)
+                .Include(x => x.Reports)
+                .Include(x => x.LeadTeams)
+                .ThenInclude(x => x.TeamMembers)
+                .ThenInclude(x => x.User)
+                .ThenInclude(x => x.Reports)
+                .ToList()
+                .FirstOrDefault();
 
-        //    info.UsersReports = entity.LeadTeams.SelectMany(x =>
-        //        x.TeamMembers.SelectMany(t => _mapper.Map(t.User.Reports, new ReportDto()));
+            info.UsersReports = entity.LeadTeams
+                .SelectMany(x => x.TeamMembers.SelectMany(t => t.User.Reports.Select(r=>_mapper.Map(r,new ReportDto())))).ToList();
+            info.UsersReports = info.UsersReports.Where(x => (x.UserId != entity.Id) && (x.StatusId == 2 || x.StatusId == 3)).ToList();
+            info.Users = entity.LeadTeams.SelectMany(x => x.TeamMembers.Select(u=> _mapper.Map(u.User,new UserViewDto()))).ToList();
 
-        //    return info;
-        //}
+            return info;
+        }
     }
 }

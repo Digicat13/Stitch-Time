@@ -87,6 +87,23 @@ namespace StitchTime.Services
             var entity = new Report();
             _mapper.Map(reportDto, entity);
             entity.UpdateDate = System.DateTime.UtcNow;
+                   
+            _unitOfWork.ReportRepository.Update(entity);
+            _unitOfWork.Save();
+            _mapper.Map(entity, reportDto);
+            return reportDto;
+        }
+
+        public ReportDto TrackStatus(ReportDto reportDto)
+        {
+            var entity = new Report();
+            _mapper.Map(reportDto, entity);
+
+            if (_unitOfWork.StatusRepository.GetById(reportDto.StatusId).Result.Name != "Accepted")
+            {
+                _unitOfWork.ProjectRepository.GetById(reportDto.ProjectId).Result.SpentEffort += (reportDto.Time + reportDto.Overtime);
+                _unitOfWork.ProjectRepository.GetById(reportDto.ProjectId).Result.InitialRisk += ((reportDto.Time + reportDto.Overtime)/reportDto.Time);
+            }
             _unitOfWork.ReportRepository.Update(entity);
             _unitOfWork.Save();
             _mapper.Map(entity, reportDto);
@@ -104,6 +121,5 @@ namespace StitchTime.Services
             _mapper.Map(entity, reportDto);
             return reportDto;
         }
-
     }
 }

@@ -36,11 +36,11 @@ namespace StitchTime.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProjectDto>> GetProject(int id)
+        public ActionResult<ProjectDto> GetProject(int id)
         {
             try
             {
-                var result = await _projectService.GetById(id);
+                var result = _projectService.GetById(id);
                 return Ok(result);
             }
             catch (NullReferenceException)

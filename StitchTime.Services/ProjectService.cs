@@ -26,9 +26,9 @@ namespace StitchTime.Services
             return _unitOfWork.ProjectRepository.GetAll().Include(x=>x.Team).Select(el => _mapper.Map(el, new ProjectDto())).ToList();
         }
 
-        public async Task<ProjectDto> GetById(int Id)
+        public ProjectDto GetById(int Id)
         {
-            var entity = await _unitOfWork.ProjectRepository.GetById(Id);
+            var entity = _unitOfWork.ProjectRepository.GetAll().Where(x=>x.Id==Id).Include(x=>x.Team).ToList().FirstOrDefault();
             var dto = new ProjectDto();
             _mapper.Map(entity, dto);
             return dto;

@@ -62,5 +62,19 @@ namespace StitchTime.Controllers
                 return NotFound();
             }
         }
+
+        [HttpGet("GetTeamLeadInfo/{id}")]
+        public ActionResult<TeamLeadInfoDto> GetTeamLeadInfo(string id)
+        {
+            try
+            {
+                var result = _userService.GetTeamLeadInfo(id);
+                return Ok(result);
+            }
+            catch (NullReferenceException)
+            {
+                return NotFound();
+            }
+        }
     }
 }

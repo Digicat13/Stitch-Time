@@ -6,8 +6,7 @@ namespace StitchTime.Core.Dto
 {
     public class TeamLeadInfoDto
     {
-        public List<UserDto> Users { get; set; }
-        public List<ReportDto> TeamLeadReports { get; set; }
+        public List<UserViewDto> Users { get; set; }
         public List<ReportDto> UsersReports { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using StitchTime.Core.Abstractions;
 using StitchTime.Core.Abstractions.Services;
 using StitchTime.Core.Dto;
 using StitchTime.Core.Entities;
+using StitchTime.Core.Validators;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -35,6 +36,8 @@ namespace StitchTime.Services
 
         public async Task<ReportDto> Insert(ReportDto reportDto)
         {
+            var validator = new ReportValidator();
+            validator.ValidateAndThrow(reportDto);
             var entity = new Report();
             _mapper.Map(reportDto, entity);
             entity.CreateDate = System.DateTime.UtcNow;

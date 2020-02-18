@@ -64,16 +64,44 @@ namespace StitchTime.Services
                 .GetAll()
                 .Where(x => x.Id == Id)
                 .Include(x => x.ManageProjects)
-                .ThenInclude(x => x.Reports);
+                .ThenInclude(x => x.Reports).ToList().FirstOrDefault();
+
+            var reports = entity.ManageProjects.SelectMany(x => x.Reports.Select(r=> _mapper.Map(r, new ReportDto()))).ToList();
+            
 
             var users = new List<UserViewDto>();
+
             _mapper.Map(_unitOfWork.UserRepository
                 .GetAll()
                 .Where(x => x.MemberTeams.Select(t => t.Team.Project.ProjectManager.Id).First() == Id).ToList(), users);
+           
             _mapper.Map(entity,pmReportsInfo);
+            
             pmReportsInfo.PmDevelopers = users;
+            pmReportsInfo.DevelopersReports = reports;
 
             return pmReportsInfo;
         }
+
+        //public TeamLeadInfoDto GetTeamLeadInfo(string id)
+        //{
+        //    var info = new TeamLeadInfoDto();
+
+        //    var entity = _unitOfWork.UserRepository
+        //        .GetAll()
+        //        .Where(x => x.Id == id)
+        //        .Include(x => x.LeadTeams)
+        //        .ThenInclude(x => x.TeamMembers)
+        //        .ThenInclude(x => x.User)
+        //        .ThenInclude(x => x.Reports)
+        //        .Include(x => x.Reports)
+        //        .ToList()
+        //        .FirstOrDefault();
+
+        //    info.UsersReports = entity.LeadTeams.SelectMany(x =>
+        //        x.TeamMembers.SelectMany(t => _mapper.Map(t.User.Reports, new ReportDto()));
+
+        //    return info;
+        //}
     }
 }

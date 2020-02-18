@@ -21,12 +21,12 @@ namespace StitchTime.Controllers
             _userService = service;
         }
 
-        [HttpGet("GetInfo")]
-        public ActionResult<InfoByUserDto> GetInfo()
+        [HttpGet("GetInfo/{id}")]
+        public ActionResult<InfoByUserDto> GetInfo(string id)
         {
             try
             {
-                var result = _userService.GetInfoById(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var result = _userService.GetInfoById(id);
                 return Ok(result);
             }
             catch (NullReferenceException)
@@ -35,12 +35,12 @@ namespace StitchTime.Controllers
             }
         }
 
-        [HttpGet("GetPmProjectsInfo")]
-        public ActionResult<PmProjectsInfoDto> GetPmProjectsInfo()
+        [HttpGet("GetPmProjectsInfo/{id}")]
+        public ActionResult<PmProjectsInfoDto> GetPmProjectsInfo(string id)
         {
             try
             {
-                var result = _userService.GetPmProjectsInfo(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var result = _userService.GetPmProjectsInfo(id);
                 return Ok(result);
             }
             catch (NullReferenceException)
@@ -49,12 +49,12 @@ namespace StitchTime.Controllers
             }
         }
 
-        [HttpGet("GetPmReportsInfo")]
-        public ActionResult<PmReportsInfoDto> GetPmReportsInfo()
+        [HttpGet("GetPmReportsInfo/{id}")]
+        public ActionResult<PmReportsInfoDto> GetPmReportsInfo(string id)
         {
             try
             {
-                var result = _userService.GetPmReportsInfo(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var result = _userService.GetPmReportsInfo(id);
                 return Ok(result);
             }
             catch (NullReferenceException)

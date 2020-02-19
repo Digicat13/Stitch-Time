@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace StitchTime.DAL.Migrations
 {
-    public partial class CreateDb : Migration
+    public partial class CreateNewDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -154,8 +154,7 @@ namespace StitchTime.DAL.Migrations
                     InitialEffrort = table.Column<double>(nullable: false),
                     SpentEffort = table.Column<double>(nullable: false),
                     InitialRisk = table.Column<double>(nullable: false),
-                    ProjectManagerId = table.Column<string>(nullable: true),
-                    TeamLeadId = table.Column<string>(nullable: true)
+                    ProjectManagerId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

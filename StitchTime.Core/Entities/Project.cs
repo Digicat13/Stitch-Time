@@ -20,8 +20,6 @@ namespace StitchTime.Core.Entities
 
         public string ProjectManagerId { get; set; }
 
-        public string TeamLeadId { get; set; }
-
         public User ProjectManager { get; set; }
 
         public List<User> UserData { get; set; }

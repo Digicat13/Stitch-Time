@@ -10,8 +10,8 @@ using StitchTime.DAL;
 namespace StitchTime.DAL.Migrations
 {
     [DbContext(typeof(StitchTimeApiContext))]
-    [Migration("20200218053028_CreateDb")]
-    partial class CreateDb
+    [Migration("20200219183615_CreateNewDb")]
+    partial class CreateNewDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -320,9 +320,6 @@ namespace StitchTime.DAL.Migrations
 
                     b.Property<double>("SpentEffort")
                         .HasColumnType("float");
-
-                    b.Property<string>("TeamLeadId")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

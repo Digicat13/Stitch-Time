@@ -319,9 +319,6 @@ namespace StitchTime.DAL.Migrations
                     b.Property<double>("SpentEffort")
                         .HasColumnType("float");
 
-                    b.Property<string>("TeamLeadId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ProjectManagerId");

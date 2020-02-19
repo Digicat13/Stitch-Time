@@ -28,7 +28,7 @@ namespace StitchTime.Services
 
         public ProjectDto GetById(int Id)
         {
-            var entity = _unitOfWork.ProjectRepository.GetAll().Where(x=>x.Id==Id).Include(x=>x.Team).ToList().FirstOrDefault();
+            var entity = _unitOfWork.ProjectRepository.GetAll().Where(x=>x.Id==Id).Include(x=>x.Team).ThenInclude(x=>x.TeamMembers).ToList().FirstOrDefault();
             var dto = new ProjectDto();
             _mapper.Map(entity, dto);
             return dto;
@@ -39,7 +39,7 @@ namespace StitchTime.Services
             var entity = new Project();
             _mapper.Map(ProjectDto, entity);
             await _unitOfWork.ProjectRepository.Insert(entity);
-            var user = _unitOfWork.UserRepository.GetById(ProjectDto.TeamLeadId).Result;
+            var user = _unitOfWork.UserRepository.GetById(ProjectDto.Team.TeamLeadId).Result;
             user.PositionId = 2;
             _unitOfWork.UserRepository.Update(user);
             await _unitOfWork.SaveAsync();

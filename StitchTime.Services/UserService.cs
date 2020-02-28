@@ -89,9 +89,9 @@ namespace StitchTime.Services
             var entity = _unitOfWork.UserRepository
                 .GetAll()
                 .Where(x => x.Id == id)
-                .Include(x => x.Reports)
                 .Include(x => x.LeadTeams)
                 .ThenInclude(x => x.Project)
+                .ThenInclude(x=>x.Reports)
                 .Include(x => x.LeadTeams)
                 .ThenInclude(x => x.TeamMembers)
                 .ThenInclude(x => x.User)
@@ -99,9 +99,8 @@ namespace StitchTime.Services
                 .ToList()
                 .FirstOrDefault();
 
-            
 
-            info.UsersReports = entity.LeadTeams.SelectMany(x => x.TeamMembers.SelectMany(t => t.User.Reports.Select(r=>_mapper.Map(r,new ReportDto())))).ToList();
+            info.UsersReports = entity.LeadTeams.SelectMany(t => t.Project.Reports.Select(r => _mapper.Map(r, new ReportDto()))).ToList();
             info.UsersReports = info.UsersReports.Where(x => (x.UserId != entity.Id) && (x.StatusId == 2 || x.StatusId == 3)).ToList();
             info.Users = entity.LeadTeams.SelectMany(x => x.TeamMembers.Select(u=> _mapper.Map(u.User,new UserViewDto())).Where(t=>t.Id != id)).ToList();
             info.Projects = entity.LeadTeams.Select(x => x.Project).Select(p => _mapper.Map(p, new ProjectViewDto())).ToList();

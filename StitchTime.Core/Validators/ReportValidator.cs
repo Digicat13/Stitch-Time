@@ -10,9 +10,7 @@ namespace StitchTime.Core.Validators
         public ReportValidator()
         {
             RuleFor(x => x.Time)
-                .NotEmpty()
                 .LessThanOrEqualTo(maxTime)
-                .GreaterThan(0)
                 .WithMessage("Bad report info");
             RuleFor(x => x.Description)
                 .NotEmpty()

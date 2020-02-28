@@ -54,6 +54,8 @@ namespace StitchTime.Services
 
         public ReportDto Update(ReportDto reportDto)
         {
+            var validator = new ReportValidator();
+            validator.ValidateAndThrow(reportDto);
             var entity = new Report();
             _mapper.Map(reportDto, entity);
             entity.StatusId = 1;
@@ -115,7 +117,6 @@ namespace StitchTime.Services
             if (_unitOfWork.StatusRepository.GetById(reportDto.StatusId).Result.Name == "Accepted")
             {
                 _unitOfWork.ProjectRepository.GetById(reportDto.ProjectId).Result.SpentEffort += (reportDto.Time + reportDto.Overtime);
-                _unitOfWork.ProjectRepository.GetById(reportDto.ProjectId).Result.InitialRisk += ((reportDto.Time + reportDto.Overtime) / reportDto.Time);
             }
             _unitOfWork.Save();
         }
@@ -147,7 +148,7 @@ namespace StitchTime.Services
 
             BodyBuilder bodyBuilder = new BodyBuilder();
 
-            bodyBuilder.HtmlBody = "<p>" + Body + "</p><br> http://localhost:4200/home/notifiedreports";
+            bodyBuilder.HtmlBody = "<p>" + Body + "</p><br> http://localhost:4200/login";
 
             message.Body = bodyBuilder.ToMessageBody();
 
